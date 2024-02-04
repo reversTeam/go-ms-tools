@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package go.micro.service.abs;
+
+option go_package = "services/abs/protobuf";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service Abs {
+
+	rpc List(google.protobuf.Empty) returns (AbsResponse) {
+		option (google.api.http) = {
+			get: "/abs"
+		};
+	}
+
+	rpc Create(google.protobuf.Empty) returns (AbsResponse) {
+		option (google.api.http) = {
+			post: "/abs"
+			body: "*"
+		};
+	}
+
+	rpc Get(AbsEntityRequest) returns (AbsResponse) {
+		option (google.api.http) = {
+			get: "/abs/{id}"
+		};
+	}
+
+	rpc Update(AbsEntityRequest) returns (AbsResponse) {
+		option (google.api.http) = {
+			patch: "/abs/{id}"
+			body: "*"
+		};
+	}
+
+	rpc Delete(AbsEntityRequest) returns (AbsResponse) {
+		option (google.api.http) = {
+			delete: "/abs/{id}"
+		};
+	}
+}
+
+message AbsResponse {
+	string Message = 1 [json_name="message"];
+}
+
+message AbsEntityRequest {
+	string id = 2 [json_name="id"];
+}
