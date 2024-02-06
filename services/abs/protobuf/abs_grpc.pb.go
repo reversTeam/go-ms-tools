@@ -31,11 +31,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AbsClient interface {
-	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AbsResponse, error)
-	Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AbsResponse, error)
-	Get(ctx context.Context, in *AbsEntityRequest, opts ...grpc.CallOption) (*AbsResponse, error)
-	Update(ctx context.Context, in *AbsEntityRequest, opts ...grpc.CallOption) (*AbsResponse, error)
-	Delete(ctx context.Context, in *AbsEntityRequest, opts ...grpc.CallOption) (*AbsResponse, error)
+	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Response, error)
+	Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Response, error)
+	Get(ctx context.Context, in *EntityRequest, opts ...grpc.CallOption) (*Response, error)
+	Update(ctx context.Context, in *EntityRequest, opts ...grpc.CallOption) (*Response, error)
+	Delete(ctx context.Context, in *EntityRequest, opts ...grpc.CallOption) (*Response, error)
 }
 
 type absClient struct {
@@ -46,8 +46,8 @@ func NewAbsClient(cc grpc.ClientConnInterface) AbsClient {
 	return &absClient{cc}
 }
 
-func (c *absClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AbsResponse, error) {
-	out := new(AbsResponse)
+func (c *absClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
 	err := c.cc.Invoke(ctx, Abs_List_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -55,8 +55,8 @@ func (c *absClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *absClient) Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*AbsResponse, error) {
-	out := new(AbsResponse)
+func (c *absClient) Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
 	err := c.cc.Invoke(ctx, Abs_Create_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -64,8 +64,8 @@ func (c *absClient) Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.
 	return out, nil
 }
 
-func (c *absClient) Get(ctx context.Context, in *AbsEntityRequest, opts ...grpc.CallOption) (*AbsResponse, error) {
-	out := new(AbsResponse)
+func (c *absClient) Get(ctx context.Context, in *EntityRequest, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
 	err := c.cc.Invoke(ctx, Abs_Get_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -73,8 +73,8 @@ func (c *absClient) Get(ctx context.Context, in *AbsEntityRequest, opts ...grpc.
 	return out, nil
 }
 
-func (c *absClient) Update(ctx context.Context, in *AbsEntityRequest, opts ...grpc.CallOption) (*AbsResponse, error) {
-	out := new(AbsResponse)
+func (c *absClient) Update(ctx context.Context, in *EntityRequest, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
 	err := c.cc.Invoke(ctx, Abs_Update_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -82,8 +82,8 @@ func (c *absClient) Update(ctx context.Context, in *AbsEntityRequest, opts ...gr
 	return out, nil
 }
 
-func (c *absClient) Delete(ctx context.Context, in *AbsEntityRequest, opts ...grpc.CallOption) (*AbsResponse, error) {
-	out := new(AbsResponse)
+func (c *absClient) Delete(ctx context.Context, in *EntityRequest, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
 	err := c.cc.Invoke(ctx, Abs_Delete_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -95,11 +95,11 @@ func (c *absClient) Delete(ctx context.Context, in *AbsEntityRequest, opts ...gr
 // All implementations must embed UnimplementedAbsServer
 // for forward compatibility
 type AbsServer interface {
-	List(context.Context, *emptypb.Empty) (*AbsResponse, error)
-	Create(context.Context, *emptypb.Empty) (*AbsResponse, error)
-	Get(context.Context, *AbsEntityRequest) (*AbsResponse, error)
-	Update(context.Context, *AbsEntityRequest) (*AbsResponse, error)
-	Delete(context.Context, *AbsEntityRequest) (*AbsResponse, error)
+	List(context.Context, *emptypb.Empty) (*Response, error)
+	Create(context.Context, *emptypb.Empty) (*Response, error)
+	Get(context.Context, *EntityRequest) (*Response, error)
+	Update(context.Context, *EntityRequest) (*Response, error)
+	Delete(context.Context, *EntityRequest) (*Response, error)
 	mustEmbedUnimplementedAbsServer()
 }
 
@@ -107,19 +107,19 @@ type AbsServer interface {
 type UnimplementedAbsServer struct {
 }
 
-func (UnimplementedAbsServer) List(context.Context, *emptypb.Empty) (*AbsResponse, error) {
+func (UnimplementedAbsServer) List(context.Context, *emptypb.Empty) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedAbsServer) Create(context.Context, *emptypb.Empty) (*AbsResponse, error) {
+func (UnimplementedAbsServer) Create(context.Context, *emptypb.Empty) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedAbsServer) Get(context.Context, *AbsEntityRequest) (*AbsResponse, error) {
+func (UnimplementedAbsServer) Get(context.Context, *EntityRequest) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedAbsServer) Update(context.Context, *AbsEntityRequest) (*AbsResponse, error) {
+func (UnimplementedAbsServer) Update(context.Context, *EntityRequest) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedAbsServer) Delete(context.Context, *AbsEntityRequest) (*AbsResponse, error) {
+func (UnimplementedAbsServer) Delete(context.Context, *EntityRequest) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedAbsServer) mustEmbedUnimplementedAbsServer() {}
@@ -172,7 +172,7 @@ func _Abs_Create_Handler(srv interface{}, ctx context.Context, dec func(interfac
 }
 
 func _Abs_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AbsEntityRequest)
+	in := new(EntityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -184,13 +184,13 @@ func _Abs_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}
 		FullMethod: Abs_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AbsServer).Get(ctx, req.(*AbsEntityRequest))
+		return srv.(AbsServer).Get(ctx, req.(*EntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Abs_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AbsEntityRequest)
+	in := new(EntityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -202,13 +202,13 @@ func _Abs_Update_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: Abs_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AbsServer).Update(ctx, req.(*AbsEntityRequest))
+		return srv.(AbsServer).Update(ctx, req.(*EntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Abs_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AbsEntityRequest)
+	in := new(EntityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -220,7 +220,7 @@ func _Abs_Delete_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: Abs_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AbsServer).Delete(ctx, req.(*AbsEntityRequest))
+		return srv.(AbsServer).Delete(ctx, req.(*EntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

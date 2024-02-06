@@ -12,10 +12,10 @@ import (
 	"context"
 	"io"
 	"net/http"
-	"services/abs/protobuf"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/utilities"
+	"github.com/reversTeam/go-ms-tools/services/abs/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
@@ -78,7 +78,7 @@ func local_request_Child_Create_0(ctx context.Context, marshaler runtime.Marshal
 }
 
 func request_Child_Get_0(ctx context.Context, marshaler runtime.Marshaler, client ChildClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq protobuf.AbsEntityRequest
+	var protoReq protobuf.EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -104,7 +104,7 @@ func request_Child_Get_0(ctx context.Context, marshaler runtime.Marshaler, clien
 }
 
 func local_request_Child_Get_0(ctx context.Context, marshaler runtime.Marshaler, server ChildServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq protobuf.AbsEntityRequest
+	var protoReq protobuf.EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -130,7 +130,7 @@ func local_request_Child_Get_0(ctx context.Context, marshaler runtime.Marshaler,
 }
 
 func request_Child_Update_0(ctx context.Context, marshaler runtime.Marshaler, client ChildClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq protobuf.AbsEntityRequest
+	var protoReq protobuf.EntityRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
@@ -160,7 +160,7 @@ func request_Child_Update_0(ctx context.Context, marshaler runtime.Marshaler, cl
 }
 
 func local_request_Child_Update_0(ctx context.Context, marshaler runtime.Marshaler, server ChildServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq protobuf.AbsEntityRequest
+	var protoReq protobuf.EntityRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
@@ -190,7 +190,7 @@ func local_request_Child_Update_0(ctx context.Context, marshaler runtime.Marshal
 }
 
 func request_Child_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client ChildClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq protobuf.AbsEntityRequest
+	var protoReq protobuf.EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -216,7 +216,7 @@ func request_Child_Delete_0(ctx context.Context, marshaler runtime.Marshaler, cl
 }
 
 func local_request_Child_Delete_0(ctx context.Context, marshaler runtime.Marshaler, server ChildServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq protobuf.AbsEntityRequest
+	var protoReq protobuf.EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (

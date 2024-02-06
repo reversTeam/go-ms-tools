@@ -2,50 +2,50 @@ syntax = "proto3";
 
 package go.micro.service.abs;
 
-option go_package = "services/abs/protobuf";
+option go_package = "github.com/reversTeam/go-ms-tools/services/abs/protobuf";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
 service Abs {
 
-	rpc List(google.protobuf.Empty) returns (AbsResponse) {
+	rpc List(google.protobuf.Empty) returns (Response) {
 		option (google.api.http) = {
 			get: "/abs"
 		};
 	}
 
-	rpc Create(google.protobuf.Empty) returns (AbsResponse) {
+	rpc Create(google.protobuf.Empty) returns (Response) {
 		option (google.api.http) = {
 			post: "/abs"
 			body: "*"
 		};
 	}
 
-	rpc Get(AbsEntityRequest) returns (AbsResponse) {
+	rpc Get(EntityRequest) returns (Response) {
 		option (google.api.http) = {
 			get: "/abs/{id}"
 		};
 	}
 
-	rpc Update(AbsEntityRequest) returns (AbsResponse) {
+	rpc Update(EntityRequest) returns (Response) {
 		option (google.api.http) = {
 			patch: "/abs/{id}"
 			body: "*"
 		};
 	}
 
-	rpc Delete(AbsEntityRequest) returns (AbsResponse) {
+	rpc Delete(EntityRequest) returns (Response) {
 		option (google.api.http) = {
 			delete: "/abs/{id}"
 		};
 	}
 }
 
-message AbsResponse {
+message Response {
 	string Message = 1 [json_name="message"];
 }
 
-message AbsEntityRequest {
+message EntityRequest {
 	string id = 2 [json_name="id"];
 }

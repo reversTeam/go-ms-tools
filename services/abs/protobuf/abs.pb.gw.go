@@ -77,7 +77,7 @@ func local_request_Abs_Create_0(ctx context.Context, marshaler runtime.Marshaler
 }
 
 func request_Abs_Get_0(ctx context.Context, marshaler runtime.Marshaler, client AbsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AbsEntityRequest
+	var protoReq EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -103,7 +103,7 @@ func request_Abs_Get_0(ctx context.Context, marshaler runtime.Marshaler, client 
 }
 
 func local_request_Abs_Get_0(ctx context.Context, marshaler runtime.Marshaler, server AbsServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AbsEntityRequest
+	var protoReq EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -129,7 +129,7 @@ func local_request_Abs_Get_0(ctx context.Context, marshaler runtime.Marshaler, s
 }
 
 func request_Abs_Update_0(ctx context.Context, marshaler runtime.Marshaler, client AbsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AbsEntityRequest
+	var protoReq EntityRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
@@ -159,7 +159,7 @@ func request_Abs_Update_0(ctx context.Context, marshaler runtime.Marshaler, clie
 }
 
 func local_request_Abs_Update_0(ctx context.Context, marshaler runtime.Marshaler, server AbsServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AbsEntityRequest
+	var protoReq EntityRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
@@ -189,7 +189,7 @@ func local_request_Abs_Update_0(ctx context.Context, marshaler runtime.Marshaler
 }
 
 func request_Abs_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client AbsClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AbsEntityRequest
+	var protoReq EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -215,7 +215,7 @@ func request_Abs_Delete_0(ctx context.Context, marshaler runtime.Marshaler, clie
 }
 
 func local_request_Abs_Delete_0(ctx context.Context, marshaler runtime.Marshaler, server AbsServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AbsEntityRequest
+	var protoReq EntityRequest
 	var metadata runtime.ServerMetadata
 
 	var (

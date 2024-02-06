@@ -6,7 +6,7 @@ import (
 	_ "github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-type GoMsMetrics struct {
+type Metrics struct {
 	ServiceName string
 	// requests *prometheus.GaugeVec
 }
@@ -17,12 +17,12 @@ type GoMsMetrics struct {
 // 	Help: "Number of requests",
 // }, []string{"code", "method", "path"}),
 
-func NewGoMsMetrics(serviceName string) *GoMsMetrics {
-	return &GoMsMetrics{
+func NewMetrics(serviceName string) *Metrics {
+	return &Metrics{
 		ServiceName: serviceName,
 	}
 }
 
-func (o *GoMsMetrics) GetServiceName() string {
+func (o *Metrics) GetServiceName() string {
 	return o.ServiceName
 }

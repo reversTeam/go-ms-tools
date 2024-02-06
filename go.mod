@@ -13,6 +13,8 @@ require (
 	google.golang.org/protobuf v1.32.0
 )
 
+replace github.com/reversTeam/go-ms => ../go-ms
+
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect

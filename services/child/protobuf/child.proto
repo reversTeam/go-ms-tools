@@ -6,37 +6,37 @@ option go_package = "github.com/reversTeam/go-ms-tools/services/child/protobuf";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
-import "abs/protobuf/abs.proto";
+import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
 
 service Child {
 
-	rpc List(google.protobuf.Empty) returns (abs.AbsResponse) {
+	rpc List(google.protobuf.Empty) returns (abs.Response) {
 		option (google.api.http) = {
 			get: "/child"
 		};
 	}
 
-	rpc Create(google.protobuf.Empty) returns (abs.AbsResponse) {
+	rpc Create(google.protobuf.Empty) returns (abs.Response) {
 		option (google.api.http) = {
 			post: "/child"
 			body: "*"
 		};
 	}
 
-	rpc Get(abs.AbsEntityRequest) returns (abs.AbsResponse) {
+	rpc Get(abs.EntityRequest) returns (abs.Response) {
 		option (google.api.http) = {
 			get: "/child/{id}"
 		};
 	}
 
-	rpc Update(abs.AbsEntityRequest) returns (abs.AbsResponse) {
+	rpc Update(abs.EntityRequest) returns (abs.Response) {
 		option (google.api.http) = {
 			patch: "/child/{id}"
 			body: "*"
 		};
 	}
 
-	rpc Delete(abs.AbsEntityRequest) returns (abs.AbsResponse) {
+	rpc Delete(abs.EntityRequest) returns (abs.Response) {
 		option (google.api.http) = {
 			delete: "/child/{id}"
 		};

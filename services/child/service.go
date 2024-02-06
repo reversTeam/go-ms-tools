@@ -2,22 +2,23 @@ package child
 
 import (
 	"github.com/golang/protobuf/ptypes/empty"
+	ms "github.com/reversTeam/go-ms-tools/services/abs/protobuf"
 	"github.com/reversTeam/go-ms/core"
 	pb "github.com/reversTeam/go-ms/services/child/protobuf"
 	"github.com/reversTeam/go-ms/services/goms"
-	ms "github.com/reversTeam/go-ms/services/goms/protobuf"
 	"golang.org/x/net/context"
 )
 
 // Define the service structure
-type ChildService struct {
+type Service struct {
 	*goms.GoMsService
 	config core.ServiceConfig
+	pb.UnimplementedChildServer
 }
 
 // Instanciate the service without dependency because it's role of ServiceFactory
-func NewService(name string, config core.ServiceConfig) *ChildService {
-	s := &ChildService{
+func NewService(name string, config core.ServiceConfig) *Service {
+	s := &Service{
 		GoMsService: goms.NewService(name, config),
 	}
 
@@ -25,20 +26,20 @@ func NewService(name string, config core.ServiceConfig) *ChildService {
 }
 
 // This method is required for redister your service on the Http server
-func (o *ChildService) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
+func (o *Service) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
 	return pb.RegisterChildHandlerFromEndpoint(gh.Ctx, gh.Mux, endpoint, gh.Grpc.Opts)
 }
 
 // This method is required for redister your service on the Grpc server
-func (o *ChildService) RegisterGrpc(gs *core.GoMsGrpcServer) {
+func (o *Service) RegisterGrpc(gs *core.GoMsGrpcServer) {
 	pb.RegisterChildServer(gs.Server, o)
 }
 
 // Endpoint :
 //   - grpc : List
 //   - http : Get /child
-func (o *ChildService) List(ctx context.Context, in *empty.Empty) (*ms.GoMsResponse, error) {
-	return &ms.GoMsResponse{
+func (o *Service) List(ctx context.Context, in *empty.Empty) (*ms.Response, error) {
+	return &ms.Response{
 		Message: "Child List",
 	}, nil
 }
@@ -46,8 +47,8 @@ func (o *ChildService) List(ctx context.Context, in *empty.Empty) (*ms.GoMsRespo
 // Endpoint :
 //   - grpc : Create
 //   - http : POST /child
-func (o *ChildService) Create(ctx context.Context, in *empty.Empty) (*ms.GoMsResponse, error) {
-	return &ms.GoMsResponse{
+func (o *Service) Create(ctx context.Context, in *empty.Empty) (*ms.Response, error) {
+	return &ms.Response{
 		Message: "Child Create",
 	}, nil
 }
@@ -55,8 +56,8 @@ func (o *ChildService) Create(ctx context.Context, in *empty.Empty) (*ms.GoMsRes
 // Endpoint :
 //   - grpc : Get
 //   - http : GET /child/{id}
-func (o *ChildService) Get(ctx context.Context, in *ms.GoMsEntityRequest) (*ms.GoMsResponse, error) {
-	return &ms.GoMsResponse{
+func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*ms.Response, error) {
+	return &ms.Response{
 		Message: "Child View",
 	}, nil
 }
@@ -64,8 +65,8 @@ func (o *ChildService) Get(ctx context.Context, in *ms.GoMsEntityRequest) (*ms.G
 // Endpoint :
 //   - grpc : Update
 //   - http : PATCH /child/{id}
-func (o *ChildService) Update(ctx context.Context, in *ms.GoMsEntityRequest) (*ms.GoMsResponse, error) {
-	return &ms.GoMsResponse{
+func (o *Service) Update(ctx context.Context, in *ms.EntityRequest) (*ms.Response, error) {
+	return &ms.Response{
 		Message: "Child Update",
 	}, nil
 }
@@ -73,8 +74,8 @@ func (o *ChildService) Update(ctx context.Context, in *ms.GoMsEntityRequest) (*m
 // Endpoint :
 //   - grpc : Delete
 //   - http : PATCH /child/{id}
-func (o *ChildService) Delete(ctx context.Context, in *ms.GoMsEntityRequest) (*ms.GoMsResponse, error) {
-	return &ms.GoMsResponse{
+func (o *Service) Delete(ctx context.Context, in *ms.EntityRequest) (*ms.Response, error) {
+	return &ms.Response{
 		Message: "Child Delete",
 	}, nil
 }

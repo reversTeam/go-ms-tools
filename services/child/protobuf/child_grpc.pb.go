@@ -8,11 +8,11 @@ package protobuf
 
 import (
 	context "context"
+	protobuf "github.com/reversTeam/go-ms-tools/services/abs/protobuf"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	protobuf "services/abs/protobuf"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -32,11 +32,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChildClient interface {
-	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.AbsResponse, error)
-	Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.AbsResponse, error)
-	Get(ctx context.Context, in *protobuf.AbsEntityRequest, opts ...grpc.CallOption) (*protobuf.AbsResponse, error)
-	Update(ctx context.Context, in *protobuf.AbsEntityRequest, opts ...grpc.CallOption) (*protobuf.AbsResponse, error)
-	Delete(ctx context.Context, in *protobuf.AbsEntityRequest, opts ...grpc.CallOption) (*protobuf.AbsResponse, error)
+	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.Response, error)
+	Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.Response, error)
+	Get(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error)
+	Update(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error)
+	Delete(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error)
 }
 
 type childClient struct {
@@ -47,8 +47,8 @@ func NewChildClient(cc grpc.ClientConnInterface) ChildClient {
 	return &childClient{cc}
 }
 
-func (c *childClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.AbsResponse, error) {
-	out := new(protobuf.AbsResponse)
+func (c *childClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.Response, error) {
+	out := new(protobuf.Response)
 	err := c.cc.Invoke(ctx, Child_List_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +56,8 @@ func (c *childClient) List(ctx context.Context, in *emptypb.Empty, opts ...grpc.
 	return out, nil
 }
 
-func (c *childClient) Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.AbsResponse, error) {
-	out := new(protobuf.AbsResponse)
+func (c *childClient) Create(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*protobuf.Response, error) {
+	out := new(protobuf.Response)
 	err := c.cc.Invoke(ctx, Child_Create_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -65,8 +65,8 @@ func (c *childClient) Create(ctx context.Context, in *emptypb.Empty, opts ...grp
 	return out, nil
 }
 
-func (c *childClient) Get(ctx context.Context, in *protobuf.AbsEntityRequest, opts ...grpc.CallOption) (*protobuf.AbsResponse, error) {
-	out := new(protobuf.AbsResponse)
+func (c *childClient) Get(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error) {
+	out := new(protobuf.Response)
 	err := c.cc.Invoke(ctx, Child_Get_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -74,8 +74,8 @@ func (c *childClient) Get(ctx context.Context, in *protobuf.AbsEntityRequest, op
 	return out, nil
 }
 
-func (c *childClient) Update(ctx context.Context, in *protobuf.AbsEntityRequest, opts ...grpc.CallOption) (*protobuf.AbsResponse, error) {
-	out := new(protobuf.AbsResponse)
+func (c *childClient) Update(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error) {
+	out := new(protobuf.Response)
 	err := c.cc.Invoke(ctx, Child_Update_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -83,8 +83,8 @@ func (c *childClient) Update(ctx context.Context, in *protobuf.AbsEntityRequest,
 	return out, nil
 }
 
-func (c *childClient) Delete(ctx context.Context, in *protobuf.AbsEntityRequest, opts ...grpc.CallOption) (*protobuf.AbsResponse, error) {
-	out := new(protobuf.AbsResponse)
+func (c *childClient) Delete(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error) {
+	out := new(protobuf.Response)
 	err := c.cc.Invoke(ctx, Child_Delete_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -96,11 +96,11 @@ func (c *childClient) Delete(ctx context.Context, in *protobuf.AbsEntityRequest,
 // All implementations must embed UnimplementedChildServer
 // for forward compatibility
 type ChildServer interface {
-	List(context.Context, *emptypb.Empty) (*protobuf.AbsResponse, error)
-	Create(context.Context, *emptypb.Empty) (*protobuf.AbsResponse, error)
-	Get(context.Context, *protobuf.AbsEntityRequest) (*protobuf.AbsResponse, error)
-	Update(context.Context, *protobuf.AbsEntityRequest) (*protobuf.AbsResponse, error)
-	Delete(context.Context, *protobuf.AbsEntityRequest) (*protobuf.AbsResponse, error)
+	List(context.Context, *emptypb.Empty) (*protobuf.Response, error)
+	Create(context.Context, *emptypb.Empty) (*protobuf.Response, error)
+	Get(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error)
+	Update(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error)
+	Delete(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error)
 	mustEmbedUnimplementedChildServer()
 }
 
@@ -108,19 +108,19 @@ type ChildServer interface {
 type UnimplementedChildServer struct {
 }
 
-func (UnimplementedChildServer) List(context.Context, *emptypb.Empty) (*protobuf.AbsResponse, error) {
+func (UnimplementedChildServer) List(context.Context, *emptypb.Empty) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedChildServer) Create(context.Context, *emptypb.Empty) (*protobuf.AbsResponse, error) {
+func (UnimplementedChildServer) Create(context.Context, *emptypb.Empty) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedChildServer) Get(context.Context, *protobuf.AbsEntityRequest) (*protobuf.AbsResponse, error) {
+func (UnimplementedChildServer) Get(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedChildServer) Update(context.Context, *protobuf.AbsEntityRequest) (*protobuf.AbsResponse, error) {
+func (UnimplementedChildServer) Update(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedChildServer) Delete(context.Context, *protobuf.AbsEntityRequest) (*protobuf.AbsResponse, error) {
+func (UnimplementedChildServer) Delete(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedChildServer) mustEmbedUnimplementedChildServer() {}
@@ -173,7 +173,7 @@ func _Child_Create_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Child_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(protobuf.AbsEntityRequest)
+	in := new(protobuf.EntityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -185,13 +185,13 @@ func _Child_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: Child_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChildServer).Get(ctx, req.(*protobuf.AbsEntityRequest))
+		return srv.(ChildServer).Get(ctx, req.(*protobuf.EntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Child_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(protobuf.AbsEntityRequest)
+	in := new(protobuf.EntityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -203,13 +203,13 @@ func _Child_Update_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: Child_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChildServer).Update(ctx, req.(*protobuf.AbsEntityRequest))
+		return srv.(ChildServer).Update(ctx, req.(*protobuf.EntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Child_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(protobuf.AbsEntityRequest)
+	in := new(protobuf.EntityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -221,7 +221,7 @@ func _Child_Delete_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: Child_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChildServer).Delete(ctx, req.(*protobuf.AbsEntityRequest))
+		return srv.(ChildServer).Delete(ctx, req.(*protobuf.EntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
