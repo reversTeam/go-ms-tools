@@ -2,24 +2,24 @@ package child
 
 import (
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/reversTeam/go-ms-tools/services/abs"
 	ms "github.com/reversTeam/go-ms-tools/services/abs/protobuf"
+	pb "github.com/reversTeam/go-ms-tools/services/child/protobuf"
 	"github.com/reversTeam/go-ms/core"
-	pb "github.com/reversTeam/go-ms/services/child/protobuf"
-	"github.com/reversTeam/go-ms/services/goms"
 	"golang.org/x/net/context"
 )
 
 // Define the service structure
 type Service struct {
-	*goms.GoMsService
+	*abs.Service
 	config core.ServiceConfig
 	pb.UnimplementedChildServer
 }
 
 // Instanciate the service without dependency because it's role of ServiceFactory
-func NewService(name string, config core.ServiceConfig) *Service {
+func NewService(ctx *core.Context, name string, config core.ServiceConfig) *Service {
 	s := &Service{
-		GoMsService: goms.NewService(name, config),
+		Service: abs.NewService(ctx, name, config),
 	}
 
 	return s
@@ -27,7 +27,7 @@ func NewService(name string, config core.ServiceConfig) *Service {
 
 // This method is required for redister your service on the Http server
 func (o *Service) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
-	return pb.RegisterChildHandlerFromEndpoint(gh.Ctx, gh.Mux, endpoint, gh.Grpc.Opts)
+	return pb.RegisterChildHandlerFromEndpoint(gh.Ctx.Main, gh.Mux, endpoint, gh.Grpc.Opts)
 }
 
 // This method is required for redister your service on the Grpc server
@@ -73,7 +73,7 @@ func (o *Service) Update(ctx context.Context, in *ms.EntityRequest) (*ms.Respons
 
 // Endpoint :
 //   - grpc : Delete
-//   - http : PATCH /child/{id}
+//   - http : DELETE /child/{id}
 func (o *Service) Delete(ctx context.Context, in *ms.EntityRequest) (*ms.Response, error) {
 	return &ms.Response{
 		Message: "Child Delete",
