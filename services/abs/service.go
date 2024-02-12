@@ -45,6 +45,40 @@ func (o *Service) Log(message string) {
 	span.SetStatus(codes.Ok, "Successful operation")
 }
 
+func (o *Service) GetMiddlewaresConf() map[string][]string {
+	result := make(map[string][]string)
+
+	middlewares, ok := o.config.Config["middlewares"]
+	if !ok {
+		return result
+	}
+
+	middlewaresMap, ok := middlewares.(map[string]interface{})
+	if !ok {
+		return result
+	}
+
+	for key, value := range middlewaresMap {
+		valueSlice, ok := value.([]interface{})
+		if !ok {
+			continue
+		}
+
+		stringSlice := make([]string, len(valueSlice))
+		for i, v := range valueSlice {
+			vStr, ok := v.(string)
+			if !ok {
+				continue
+			}
+			stringSlice[i] = vStr
+		}
+
+		result[key] = stringSlice
+	}
+
+	return result
+}
+
 // Get the service name
 func (o *Service) GetName() string {
 	return o.Name
