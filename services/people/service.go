@@ -17,7 +17,6 @@ import (
 // Define the service structure
 type Service struct {
 	*abs.Service
-	config core.ServiceConfig
 	pb.UnimplementedPeopleServer
 	scyllaGlobal *scylla.ScyllaDBManager
 }
@@ -76,7 +75,7 @@ func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*pb.PeopleResp
 		return nil, fmt.Errorf("invalid ID format: %v", err)
 	}
 
-	ctx, span := core.Trace(ctx, "people", "Get")
+	_, span := core.Trace(ctx, "people", "Get")
 	defer span.End()
 
 	var people pb.PeopleResponse

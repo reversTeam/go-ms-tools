@@ -12,7 +12,6 @@ import (
 // Define the service structure
 type Service struct {
 	*abs.Service
-	config core.ServiceConfig
 	pb.UnimplementedChildServer
 }
 
