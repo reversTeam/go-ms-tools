@@ -176,13 +176,17 @@
     "PeopleUpdateBody": {
       "type": "object",
       "properties": {
+        "status": {
+          "type": "string"
+        },
+        "expired_at": {
+          "type": "string",
+          "format": "date-time"
+        },
         "firstname": {
           "type": "string"
         },
         "lastname": {
-          "type": "string"
-        },
-        "email": {
           "type": "string"
         },
         "birthday": {
@@ -207,9 +211,6 @@
         "lastname": {
           "type": "string"
         },
-        "email": {
-          "type": "string"
-        },
         "birthday": {
           "type": "string"
         }
@@ -221,13 +222,25 @@
         "id": {
           "type": "string"
         },
+        "status": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expired_at": {
+          "type": "string",
+          "format": "date-time"
+        },
         "firstname": {
           "type": "string"
         },
         "lastname": {
-          "type": "string"
-        },
-        "email": {
           "type": "string"
         },
         "birthday": {

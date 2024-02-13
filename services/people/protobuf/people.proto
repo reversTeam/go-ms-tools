@@ -6,29 +6,33 @@ option go_package = "github.com/reversTeam/go-ms-tools/services/people/protobuf"
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
 
 message PeopleCreateParams {
     string firstname = 1;
     string lastname = 2;
-    string email = 3;
     string birthday = 4;
 }
 
 message PeopleUpdateParams {
   string id = 1;
-  string firstname = 2;
-  string lastname = 3;
-  string email = 4;
-  string birthday = 5;
+	string Status = 2 [json_name="status"];
+	google.protobuf.Timestamp ExpireddAt = 3 [json_name="expired_at"];
+  string firstname = 4;
+  string lastname = 5;
+  string birthday = 6;
 }
 
 message PeopleResponse {
 	string Id = 1 [json_name="id"];
-  string Firstname = 2 [json_name="firstname"];
-  string Lastname = 3 [json_name="lastname"];
-  string Email = 4 [json_name="email"];
-  string Birthday = 5 [json_name="birthday"];
+	string Status = 2 [json_name="status"];
+	google.protobuf.Timestamp CreatedAt = 3 [json_name = "created_at"];
+	google.protobuf.Timestamp UpdatedAt = 4 [json_name="updated_at"];
+	google.protobuf.Timestamp ExpiredAt = 5 [json_name="expired_at"];
+  string Firstname = 6 [json_name="firstname"];
+  string Lastname = 7 [json_name="lastname"];
+  string Birthday = 8 [json_name="birthday"];
 }
 
 service People {

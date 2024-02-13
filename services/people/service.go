@@ -5,6 +5,7 @@ import (
 
 	"github.com/gocql/gocql"
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/mitchellh/mapstructure"
 	"github.com/reversTeam/go-ms-tools/pkg/scylla"
 	"github.com/reversTeam/go-ms-tools/services/abs"
 	ms "github.com/reversTeam/go-ms-tools/services/abs/protobuf"
@@ -18,18 +19,24 @@ type Service struct {
 	*abs.Service
 	config core.ServiceConfig
 	pb.UnimplementedPeopleServer
-	scylla *scylla.ScyllaDBManager
+	scyllaGlobal *scylla.ScyllaDBManager
 }
 
 func NewService(ctx *core.Context, name string, config core.ServiceConfig) *Service {
-	scyllaDBManager, err := scylla.NewScyllaDBManager()
+	var dbConf scylla.DatabaseConfig
+	err := mapstructure.Decode(config.Config["databases"], &dbConf)
+	if err != nil {
+		panic(err)
+	}
+
+	scyllaGlobalSession, err := scylla.NewScyllaDBManager("global", dbConf.Scylla["global"])
 	if err != nil {
 		panic(err)
 	}
 
 	return &Service{
-		Service: abs.NewService(ctx, name, config),
-		scylla:  scyllaDBManager,
+		Service:      abs.NewService(ctx, name, config),
+		scyllaGlobal: scyllaGlobalSession,
 	}
 }
 
@@ -45,23 +52,19 @@ func (o *Service) List(in *empty.Empty, stream pb.People_ListServer) error {
 	_, scyllaSpan := core.Trace(stream.Context(), "people", "List")
 	defer scyllaSpan.End()
 
-	var peoples []pb.PeopleResponse // Définissez PeopleResponse en Go pour correspondre au message protobuf
-	err := o.scylla.Get(&peoples, "SELECT id, firstname, lastname, email, birthday FROM glb.people")
-	if err != nil {
-		return err
-	}
+	q := o.scyllaGlobal.Get("SELECT id, status, firstname, lastname, birthday FROM people")
 
-	for _, people := range peoples {
-		resp := &pb.PeopleResponse{
-			Id:        people.Id,
-			Firstname: people.Firstname,
-			Lastname:  people.Lastname,
-			Email:     people.Email,
-			Birthday:  people.Birthday,
-		}
-		if err := stream.Send(resp); err != nil {
+	r := pb.PeopleResponse{}
+	id := &gocql.UUID{}
+	for q.Scan(id, &r.Status, &r.Firstname, &r.Lastname, &r.Birthday) { // Adapter les champs
+		r.Id = id.String()
+		if err := stream.Send(&r); err != nil {
 			return err
 		}
+	}
+
+	if err := q.Close(); err != nil {
+		return err
 	}
 
 	return nil
@@ -77,15 +80,15 @@ func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*pb.PeopleResp
 	defer span.End()
 
 	var people pb.PeopleResponse
-	err = o.scylla.GetOne(&people, "SELECT id, firstname, lastname, email, birthday FROM glb.people WHERE id = ?", id)
+	req := o.scyllaGlobal.GetOne("SELECT id, firstname, lastname, birthday FROM people WHERE id = ?", id)
+	err = req.Scan(&people.Id, &people.Firstname, &people.Lastname, &people.Birthday)
 
 	return &people, err
 }
 
 func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*ms.Response, error) {
 	id := gocql.TimeUUID()
-	if err := o.scylla.ExecuteQuery("INSERT INTO glb.people (id, firstname, lastname, email, birthday) VALUES (?, ?, ?, ?, ?)",
-		id, in.Firstname, in.Lastname, in.Email, in.Birthday); err != nil {
+	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, firstname, lastname, birthday) VALUES (?, ?, ?, ?)", id, in.Firstname, in.Lastname, in.Birthday); err != nil {
 		return nil, err
 	}
 
@@ -95,8 +98,8 @@ func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*ms.Re
 }
 
 func (o *Service) Update(ctx context.Context, in *pb.PeopleUpdateParams) (*ms.Response, error) {
-	if err := o.scylla.ExecuteQuery("UPDATE glb.people SET firstname = ?, lastname = ?, email = ?, birthday = ? WHERE id = ?",
-		in.Firstname, in.Lastname, in.Email, in.Birthday, in.Id); err != nil {
+	if err := o.scyllaGlobal.ExecuteQuery("UPDATE people SET firstname = ?, lastname = ?,  birthday = ? WHERE id = ?",
+		in.Firstname, in.Lastname, in.Birthday, in.Id); err != nil {
 		return nil, err
 	}
 
@@ -106,7 +109,7 @@ func (o *Service) Update(ctx context.Context, in *pb.PeopleUpdateParams) (*ms.Re
 }
 
 func (o *Service) Delete(ctx context.Context, in *ms.EntityRequest) (*ms.Response, error) {
-	if err := o.scylla.ExecuteQuery("DELETE FROM glb.people WHERE id = ?", in.Id); err != nil {
+	if err := o.scyllaGlobal.ExecuteQuery("DELETE FROM people WHERE id = ?", in.Id); err != nil {
 		return nil, err
 	}
 
