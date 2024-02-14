@@ -12,6 +12,7 @@ import (
 	pb "github.com/reversTeam/go-ms-tools/services/people/protobuf"
 	"github.com/reversTeam/go-ms/core"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 // Define the service structure
@@ -45,6 +46,10 @@ func (o *Service) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
 
 func (o *Service) RegisterGrpc(gs *core.GoMsGrpcServer) {
 	pb.RegisterPeopleServer(gs.Server, o)
+}
+
+func (o *Service) GetClient(conn *grpc.ClientConn) any {
+	return pb.NewPeopleClient(conn)
 }
 
 func (o *Service) List(in *empty.Empty, stream pb.People_ListServer) error {
@@ -86,7 +91,10 @@ func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*pb.PeopleResp
 }
 
 func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*ms.Response, error) {
-	id := gocql.TimeUUID()
+	id, err := gocql.RandomUUID()
+	if err != nil {
+		return nil, err
+	}
 	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, firstname, lastname, birthday) VALUES (?, ?, ?, ?)", id, in.Firstname, in.Lastname, in.Birthday); err != nil {
 		return nil, err
 	}

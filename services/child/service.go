@@ -7,6 +7,7 @@ import (
 	pb "github.com/reversTeam/go-ms-tools/services/child/protobuf"
 	"github.com/reversTeam/go-ms/core"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 // Define the service structure
@@ -32,6 +33,10 @@ func (o *Service) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
 // This method is required for redister your service on the Grpc server
 func (o *Service) RegisterGrpc(gs *core.GoMsGrpcServer) {
 	pb.RegisterChildServer(gs.Server, o)
+}
+
+func (o *Service) GetClient(conn *grpc.ClientConn) any {
+	return pb.NewChildClient(conn)
 }
 
 // Endpoint :

@@ -1,48 +1,41 @@
 package abs
 
 import (
-	// "fmt"
-
 	"github.com/golang/protobuf/ptypes/empty"
 	pb "github.com/reversTeam/go-ms-tools/services/abs/protobuf"
 	"github.com/reversTeam/go-ms/core"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 // Define the service structure
 type Service struct {
-	Name    string
-	Ctx     *core.Context
-	config  core.ServiceConfig
-	Handler core.GoMsHandlerInterface
-	Metrics *Metrics
+	Name          string
+	Ctx           *core.Context
+	config        core.ServiceConfig
+	Handler       core.GoMsHandlerInterface
+	Metrics       *Metrics
+	Client        pb.AbsClient
+	ClientManager *core.GrpcClientManager
 	pb.UnimplementedAbsServer
 }
 
 // Instanciate the service without dependency because it's role of ServiceFactory
 func NewService(ctx *core.Context, name string, config core.ServiceConfig) *Service {
 	o := &Service{
-		Ctx:     ctx,
-		Name:    name,
-		config:  config,
-		Handler: NewHandler(),
-		Metrics: NewMetrics(name),
+		Ctx:           ctx,
+		Name:          name,
+		config:        config,
+		Handler:       NewHandler(),
+		Metrics:       NewMetrics(name),
+		ClientManager: nil,
+		Client:        nil,
 	}
 	return o
 }
 
-// TODO: Need to encapsule request with it
-func (o *Service) Log(message string) {
-	ctx := context.Background()
-	tracer := otel.Tracer(o.Name)
-	_, span := tracer.Start(ctx, message)
-	defer span.End()
-
-	span.SetAttributes(attribute.String("operation", "list"))
-	span.SetStatus(codes.Ok, "Successful operation")
+func (o *Service) SetClientManager(clientManager *core.GrpcClientManager) {
+	o.ClientManager = clientManager
 }
 
 func (o *Service) GetMiddlewaresConf() map[string][]string {
@@ -97,6 +90,10 @@ func (o *Service) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
 // This method is required for redister your service on the Grpc server
 func (o *Service) RegisterGrpc(gs *core.GoMsGrpcServer) {
 	pb.RegisterAbsServer(gs.Server, o)
+}
+
+func (o *Service) GetClient(conn *grpc.ClientConn) any {
+	return pb.NewAbsClient(conn)
 }
 
 // Endpoint :
