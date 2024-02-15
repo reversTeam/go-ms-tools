@@ -10,18 +10,18 @@ import "google/protobuf/timestamp.proto";
 import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
 
 message PeopleCreateParams {
-    string firstname = 1; // @gotags: json:"firstname" db:"firstname"
-    string lastname = 2; 	// @gotags: json:"lastname" db:"lastname"
-    string birthday = 3; 	// @gotags: json:"birthday" db:"birthday"
+    string firstname = 1; // @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+    string lastname = 2; 	// @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+    string birthday = 3; 	// @gotags: json:"birthday" db:"birthday" validate:"required"`
 }
 
 message PeopleUpdateParams {
-  string id = 1; 															// @gotags: json:"id" db:"id"
-	string Status = 2 ; 												// @gotags: json:"status" db:"status"
+  string id = 1; 															// @gotags: json:"id" db:"id" validate:"required,uuid4_rfc4122"`
+	string Status = 2 ; 												// @gotags: json:"status" db:"status" validate:"required,alpha"`
 	google.protobuf.Timestamp ExpireddAt = 3 ; 	// @gotags: json:"expired_at" db:"expired_at"
-  string firstname = 4; 											// @gotags: json:"firstname" db:"firstname"
-  string lastname = 5; 												// @gotags: json:"lastname" db:"lastname"
-  string birthday = 6; 												// @gotags: json:"birthday" db:"birthday"
+  string firstname = 4; 											// @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+  string lastname = 5; 												// @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+  string birthday = 6; 												// @gotags: json:"birthday" db:"birthday" validate:"required"`
 }
 
 message PeopleResponse {

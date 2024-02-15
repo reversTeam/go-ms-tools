@@ -1,6 +1,8 @@
 package email
 
 import (
+	"time"
+
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/mitchellh/mapstructure"
 	"github.com/reversTeam/go-ms-tools/pkg/scylla"
@@ -81,7 +83,14 @@ func (o *Service) Get(ctx context.Context, in *pb.EmailEntity) (*pb.EmailRespons
 }
 
 func (o *Service) Create(ctx context.Context, in *pb.EmailCreateParams) (*pb.EmailResponse, error) {
-	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO email (people_id, email, status) VALUES (?, ?, ?)", in.PeopleId, in.Email, in.Status); err != nil {
+	now := time.Now()
+
+	var validatedAt time.Time
+	if in.Status == "validated" {
+		validatedAt = now
+	}
+
+	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO email (people_id, created_at, updated_at, validated_at, email, status) VALUES (?, ?, ?, ?, ?, ?)", in.PeopleId, now, now, validatedAt, in.Email, in.Status); err != nil {
 		return nil, err
 	}
 
@@ -93,8 +102,9 @@ func (o *Service) Create(ctx context.Context, in *pb.EmailCreateParams) (*pb.Ema
 }
 
 func (o *Service) Update(ctx context.Context, in *pb.EmailUpdateParams) (*ms.Response, error) {
-	if err := o.scyllaGlobal.ExecuteQuery("UPDATE email SET status = ?, validated_at = ?, expired_at = ? WHERE people_id = ? AND email = ?",
-		in.Status, in.ValidatedAt, in.ExpiredAt, in.PeopleId, in.Email); err != nil {
+	now := time.Now()
+	if err := o.scyllaGlobal.ExecuteQuery("UPDATE email SET status = ?, validated_at = ?, expired_at = ?, updated_at = ? WHERE people_id = ? AND email = ?",
+		in.Status, in.ValidatedAt, in.ExpiredAt, in.PeopleId, in.Email, now); err != nil {
 		return nil, err
 	}
 

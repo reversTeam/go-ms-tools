@@ -8,15 +8,15 @@ import "google/api/annotations.proto";
 import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
 
 message RegisterRequest {
-  string email = 1;     // @gotags: json:"email" db:"email"
-  string firstname = 2; // @gotags: json:"firstname" db:"firstname"
-  string lastname = 3;  // @gotags: json:"lastname" db:"lastname"
-  string birthday = 4;  // @gotags: json:"birthday" db:"birthday"
-  string password = 5;  // @gotags: json:"password" db:"password"
+  string email = 1;     // @gotags: json:"email" db:"email" validate:"required,email"`
+  string firstname = 2; // @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+  string lastname = 3;  // @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+  string birthday = 4;  // @gotags: json:"birthday" db:"birthday" validate:"required"`
+  string password = 5;  // @gotags: json:"password" db:"password" validate:"required,alphanumunicode"`
 }
 
 message ValidateSigninRequest {
-  string id = 1;                // @gotags: json:"id" db:"id"
+  string id = 1;                // @gotags: json:"id" db:"id" validate:"required,uuid4_rfc4122"`
   string validation_token = 2;  // @gotags: json:"validation_token" db:"validation_token"
 }
 

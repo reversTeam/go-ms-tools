@@ -29,9 +29,9 @@ type PeopleCreateParams struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Firstname string `protobuf:"bytes,1,opt,name=firstname,proto3" json:"firstname" db:"firstname"` // @gotags: json:"firstname" db:"firstname"
-	Lastname  string `protobuf:"bytes,2,opt,name=lastname,proto3" json:"lastname" db:"lastname"`    // @gotags: json:"lastname" db:"lastname"
-	Birthday  string `protobuf:"bytes,3,opt,name=birthday,proto3" json:"birthday" db:"birthday"`    // @gotags: json:"birthday" db:"birthday"
+	Firstname string `protobuf:"bytes,1,opt,name=firstname,proto3" json:"firstname" db:"firstname" validate:"required,alphanumunicode"` // @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+	Lastname  string `protobuf:"bytes,2,opt,name=lastname,proto3" json:"lastname" db:"lastname" validate:"required,alphanumunicode"`    // @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+	Birthday  string `protobuf:"bytes,3,opt,name=birthday,proto3" json:"birthday" db:"birthday" validate:"required"`                    // @gotags: json:"birthday" db:"birthday" validate:"required"`
 }
 
 func (x *PeopleCreateParams) Reset() {
@@ -92,12 +92,12 @@ type PeopleUpdateParams struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id" db:"id"`                         // @gotags: json:"id" db:"id"
-	Status     string                 `protobuf:"bytes,2,opt,name=Status,proto3" json:"status" db:"status"`             // @gotags: json:"status" db:"status"
-	ExpireddAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=ExpireddAt,proto3" json:"expired_at" db:"expired_at"` // @gotags: json:"expired_at" db:"expired_at"
-	Firstname  string                 `protobuf:"bytes,4,opt,name=firstname,proto3" json:"firstname" db:"firstname"`    // @gotags: json:"firstname" db:"firstname"
-	Lastname   string                 `protobuf:"bytes,5,opt,name=lastname,proto3" json:"lastname" db:"lastname"`       // @gotags: json:"lastname" db:"lastname"
-	Birthday   string                 `protobuf:"bytes,6,opt,name=birthday,proto3" json:"birthday" db:"birthday"`       // @gotags: json:"birthday" db:"birthday"
+	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id" db:"id" validate:"required,uuid4_rfc4122"`                        // @gotags: json:"id" db:"id" validate:"required,uuid4_rfc4122"`
+	Status     string                 `protobuf:"bytes,2,opt,name=Status,proto3" json:"status" db:"status" validate:"required,alpha"`                    // @gotags: json:"status" db:"status" validate:"required,alpha"`
+	ExpireddAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=ExpireddAt,proto3" json:"expired_at" db:"expired_at"`                                  // @gotags: json:"expired_at" db:"expired_at"
+	Firstname  string                 `protobuf:"bytes,4,opt,name=firstname,proto3" json:"firstname" db:"firstname" validate:"required,alphanumunicode"` // @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+	Lastname   string                 `protobuf:"bytes,5,opt,name=lastname,proto3" json:"lastname" db:"lastname" validate:"required,alphanumunicode"`    // @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+	Birthday   string                 `protobuf:"bytes,6,opt,name=birthday,proto3" json:"birthday" db:"birthday" validate:"required"`                    // @gotags: json:"birthday" db:"birthday" validate:"required"`
 }
 
 func (x *PeopleUpdateParams) Reset() {

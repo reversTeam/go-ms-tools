@@ -1,6 +1,9 @@
 package account
 
 import (
+	"log"
+	"time"
+
 	"github.com/gocql/gocql"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/mitchellh/mapstructure"
@@ -87,7 +90,9 @@ func (o *Service) Create(ctx context.Context, in *pb.AccountCreateParams) (*pb.A
 		return nil, err
 	}
 
-	if err := o.scyllaAuth.ExecuteQuery("INSERT INTO account (people_id, password, status) VALUES (?, ?, ?)", peopleId, in.Password, in.Status); err != nil {
+	now := time.Now()
+	if err := o.scyllaAuth.ExecuteQuery("INSERT INTO account (people_id, signin_id, created_at, updated_at, validated_at, email, password, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", peopleId, in.SigninId, now, now, now, in.Email, in.Password, in.Status); err != nil {
+		log.Printf("ACCOUNT CREATION ON ERROR IN THE MS : %s", err)
 		return nil, err
 	}
 
@@ -99,8 +104,8 @@ func (o *Service) Create(ctx context.Context, in *pb.AccountCreateParams) (*pb.A
 }
 
 func (o *Service) Update(ctx context.Context, in *pb.AccountUpdateParams) (*ms.Response, error) {
-	if err := o.scyllaAuth.ExecuteQuery("UPDATE account SET password = ?, status = ?, validated_at = ?, expired_at = ?, signin_id = ? WHERE people_id = ?",
-		in.Password, in.Status, in.ValidatedAt, in.ExpiredAt, in.SigninId, in.PeopleId); err != nil {
+	if err := o.scyllaAuth.ExecuteQuery("UPDATE account SET password = ?, status = ?, email = ?, validated_at = ?, updated_at = ?, expired_at = ?, signin_id = ? WHERE people_id = ?",
+		in.Password, in.Status, in.Email, in.ValidatedAt, time.Now(), in.ExpiredAt, in.SigninId, in.PeopleId); err != nil {
 		return nil, err
 	}
 

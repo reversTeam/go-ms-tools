@@ -155,7 +155,7 @@
         "parameters": [
           {
             "name": "peopleId",
-            "description": "@gotags: json:\"people_id\" db:\"people_id\"",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\" validate:\"required,uuid4_rfc4122\"`",
             "in": "path",
             "required": true,
             "type": "string"
@@ -181,7 +181,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "title": "@gotags: json:\"status\" db:\"status\""
+          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required\"`"
         },
         "validatedAt": {
           "type": "string",
@@ -193,13 +193,17 @@
           "format": "date-time",
           "title": "@gotags: json:\"expired_at\" db:\"expired_at\""
         },
+        "email": {
+          "type": "string",
+          "title": "@gotags: json:\"email\" db:\"email\" validate:\"required,email\"`"
+        },
         "password": {
           "type": "string",
-          "title": "@gotags: json:\"password\" db:\"password\""
+          "title": "@gotags: json:\"password\" db:\"password\" validate:\"required\"`"
         },
         "signinId": {
           "type": "string",
-          "title": "@gotags: json:\"signin_id\" db:\"signin_id\""
+          "title": "@gotags: json:\"signin_id\" db:\"signin_id\" validate:\"required,uuid4_rfc4122\"`"
         }
       }
     },
@@ -217,15 +221,23 @@
       "properties": {
         "peopleId": {
           "type": "string",
-          "title": "@gotags: json:\"people_id\" db:\"people_id\""
+          "title": "@gotags: json:\"people_id\" db:\"people_id\" validate:\"required,uuid4_rfc4122\"`"
+        },
+        "signinId": {
+          "type": "string",
+          "title": "@gotags: json:\"signin_id\" db:\"sigmin_id\" validate:\"required,uuid4_rfc4122\"`"
         },
         "password": {
           "type": "string",
-          "title": "@gotags: json:\"password\" db:\"password\""
+          "title": "@gotags: json:\"password\" db:\"password\" validate:\"required\"`"
+        },
+        "email": {
+          "type": "string",
+          "title": "@gotags: json:\"email\" db:\"email\" validate:\"required,email\"`"
         },
         "status": {
           "type": "string",
-          "title": "@gotags: json:\"status\" db:\"status\""
+          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required,alphanumunicode\"`"
         }
       }
     },
@@ -259,6 +271,10 @@
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"expired_at\" db:\"expired_at\""
+        },
+        "email": {
+          "type": "string",
+          "title": "@gotags: json:\"email\" db:\"email\""
         },
         "password": {
           "type": "string",

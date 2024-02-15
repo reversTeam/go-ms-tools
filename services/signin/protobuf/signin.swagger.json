@@ -68,7 +68,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\"",
+            "description": "@gotags: json:\"id\" db:\"id\" validate:\"required,uuid4_rfc4122\"`",
             "in": "path",
             "required": true,
             "type": "string"
@@ -130,23 +130,23 @@
       "properties": {
         "email": {
           "type": "string",
-          "title": "@gotags: json:\"email\" db:\"email\""
+          "title": "@gotags: json:\"email\" db:\"email\" validate:\"required,email\"`"
         },
         "firstname": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\""
+          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
         },
         "lastname": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\""
+          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
         },
         "birthday": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\""
+          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
         },
         "password": {
           "type": "string",
-          "title": "@gotags: json:\"password\" db:\"password\""
+          "title": "@gotags: json:\"password\" db:\"password\" validate:\"required,alphanumunicode\"`"
         }
       }
     }

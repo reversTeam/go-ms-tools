@@ -155,7 +155,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\"",
+            "description": "@gotags: json:\"id\" db:\"id\" validate:\"required,uuid4_rfc4122\"`",
             "in": "path",
             "required": true,
             "type": "string"
@@ -181,7 +181,7 @@
       "properties": {
         "Status": {
           "type": "string",
-          "title": "@gotags: json:\"status\" db:\"status\""
+          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required,alpha\"`"
         },
         "ExpireddAt": {
           "type": "string",
@@ -190,15 +190,15 @@
         },
         "firstname": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\""
+          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
         },
         "lastname": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\""
+          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
         },
         "birthday": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\""
+          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
         }
       }
     },
@@ -216,15 +216,15 @@
       "properties": {
         "firstname": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\""
+          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
         },
         "lastname": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\""
+          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
         },
         "birthday": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\""
+          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
         }
       }
     },

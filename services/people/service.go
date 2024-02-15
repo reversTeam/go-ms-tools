@@ -2,6 +2,7 @@ package people
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gocql/gocql"
 	"github.com/golang/protobuf/ptypes/empty"
@@ -95,7 +96,8 @@ func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*pb.Pe
 		return nil, err
 	}
 
-	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, firstname, lastname, birthday) VALUES (?, ?, ?, ?)", id, in.Firstname, in.Lastname, in.Birthday); err != nil {
+	now := time.Now()
+	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, created_at, updated_at, status, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?, ?, ?)", id, now, now, "validated", in.Firstname, in.Lastname, in.Birthday); err != nil {
 		return nil, err
 	}
 
@@ -108,8 +110,8 @@ func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*pb.Pe
 }
 
 func (o *Service) Update(ctx context.Context, in *pb.PeopleUpdateParams) (*ms.Response, error) {
-	if err := o.scyllaGlobal.ExecuteQuery("UPDATE people SET firstname = ?, lastname = ?,  birthday = ? WHERE id = ?",
-		in.Firstname, in.Lastname, in.Birthday, in.Id); err != nil {
+	if err := o.scyllaGlobal.ExecuteQuery("UPDATE people SET updated_at = ?, firstname = ?, lastname = ?,  birthday = ? WHERE id = ?",
+		time.Now(), in.Firstname, in.Lastname, in.Birthday, in.Id); err != nil {
 		return nil, err
 	}
 
