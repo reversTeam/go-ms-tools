@@ -30,7 +30,7 @@ type EmailEntity struct {
 	unknownFields protoimpl.UnknownFields
 
 	PeopleId string `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"` // @gotags: json:"people_id" db:"people_id"
-	Email    string `protobuf:"bytes,2,opt,name=email,proto3" json:"email" db:"email"`                       // @gotags: json:"email" db:"email"
+	Email    string `protobuf:"bytes,2,opt,name=email,proto3" json:"email" db:"email"`                           // @gotags: json:"email" db:"email"
 }
 
 func (x *EmailEntity) Reset() {
@@ -85,8 +85,8 @@ type EmailCreateParams struct {
 	unknownFields protoimpl.UnknownFields
 
 	PeopleId string `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"` // @gotags: json:"people_id" db:"people_id"
-	Email    string `protobuf:"bytes,2,opt,name=email,proto3" json:"email" db:"email"`                       // @gotags: json:"email" db:"email"
-	Status   string `protobuf:"bytes,3,opt,name=status,proto3" json:"status" db:"status"`                     // @gotags: json:"status" db:"status"
+	Email    string `protobuf:"bytes,2,opt,name=email,proto3" json:"email" db:"email"`                           // @gotags: json:"email" db:"email"
+	Status   string `protobuf:"bytes,3,opt,name=status,proto3" json:"status" db:"status"`                        // @gotags: json:"status" db:"status"
 }
 
 func (x *EmailCreateParams) Reset() {
@@ -147,11 +147,11 @@ type EmailUpdateParams struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`          // @gotags: json:"people_id" db:"people_id"
-	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                              // @gotags: json:"status" db:"status"
+	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`             // @gotags: json:"people_id" db:"people_id"
+	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                                    // @gotags: json:"status" db:"status"
 	ValidatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=validated_at,json=validatedAt,proto3" json:"validated_at" db:"validated_at"` // @gotags: json:"validated_at" db:"validated_at"
-	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`       // @gotags: json:"expired_at" db:"expired_at"
-	Email       string                 `protobuf:"bytes,5,opt,name=email,proto3" json:"email" db:"email"`                                // @gotags: json:"email" db:"email"
+	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`         // @gotags: json:"expired_at" db:"expired_at"
+	Email       string                 `protobuf:"bytes,5,opt,name=email,proto3" json:"email" db:"email"`                                       // @gotags: json:"email" db:"email"
 }
 
 func (x *EmailUpdateParams) Reset() {
@@ -226,13 +226,13 @@ type EmailResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`          // @gotags: json:"people_id" db:"people_id"
-	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                              // @gotags: json:"status" db:"status"
-	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at" db:"created_at"`       // @gotags: json:"created_at" db:"created_at"
-	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at" db:"updated_at"`       // @gotags: json:"updated_at" db:"updated_at"
+	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`             // @gotags: json:"people_id" db:"people_id"
+	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                                    // @gotags: json:"status" db:"status"
+	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at" db:"created_at"`         // @gotags: json:"created_at" db:"created_at"
+	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at" db:"updated_at"`         // @gotags: json:"updated_at" db:"updated_at"
 	ValidatedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=validated_at,json=validatedAt,proto3" json:"validated_at" db:"validated_at"` // @gotags: json:"validated_at" db:"validated_at"
-	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`       // @gotags: json:"expired_at" db:"expired_at"
-	Email       string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email" db:"email"`                                // @gotags: json:"email" db:"email"
+	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`         // @gotags: json:"expired_at" db:"expired_at"
+	Email       string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email" db:"email"`                                       // @gotags: json:"email" db:"email"
 }
 
 func (x *EmailResponse) Reset() {

@@ -157,7 +157,7 @@ func (o *Service) Validate(ctx context.Context, req *pb.ValidateSigninRequest) (
 		return nil, err
 	}
 	peopleGrpcClient := iPeopleGrpcClient.(pbPeople.PeopleClient)
-	peopleResponse, err := peopleGrpcClient.(pbPeople.PeopleClient).Create(ctx, &pbPeople.PeopleCreateParams{
+	peopleResponse, err := peopleGrpcClient.Create(ctx, &pbPeople.PeopleCreateParams{
 		Firstname: signin.Firstname,
 		Lastname:  signin.Lastname,
 		Birthday:  signin.Birthday,

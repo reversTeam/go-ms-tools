@@ -77,8 +77,8 @@ type AccountCreateParams struct {
 	unknownFields protoimpl.UnknownFields
 
 	PeopleId string `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"` // @gotags: json:"people_id" db:"people_id"
-	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password" db:"password"`                 // @gotags: json:"password" db:"password"
-	Status   string `protobuf:"bytes,3,opt,name=status,proto3" json:"status" db:"status"`                     // @gotags: json:"status" db:"status"
+	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password" db:"password"`                  // @gotags: json:"password" db:"password"
+	Status   string `protobuf:"bytes,3,opt,name=status,proto3" json:"status" db:"status"`                        // @gotags: json:"status" db:"status"
 }
 
 func (x *AccountCreateParams) Reset() {
@@ -139,12 +139,12 @@ type AccountUpdateParams struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`          // @gotags: json:"people_id" db:"people_id"
-	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                              // @gotags: json:"status" db:"status"
+	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`             // @gotags: json:"people_id" db:"people_id"
+	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                                    // @gotags: json:"status" db:"status"
 	ValidatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=validated_at,json=validatedAt,proto3" json:"validated_at" db:"validated_at"` // @gotags: json:"validated_at" db:"validated_at"
-	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`       // @gotags: json:"expired_at" db:"expired_at"
-	Password    string                 `protobuf:"bytes,5,opt,name=password,proto3" json:"password" db:"password"`                          // @gotags: json:"password" db:"password"
-	SigninId    string                 `protobuf:"bytes,6,opt,name=signin_id,json=signinId,proto3" json:"signin_id" db:"signin_id"`          // @gotags: json:"signin_id" db:"signin_id"
+	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`         // @gotags: json:"expired_at" db:"expired_at"
+	Password    string                 `protobuf:"bytes,5,opt,name=password,proto3" json:"password" db:"password"`                              // @gotags: json:"password" db:"password"
+	SigninId    string                 `protobuf:"bytes,6,opt,name=signin_id,json=signinId,proto3" json:"signin_id" db:"signin_id"`             // @gotags: json:"signin_id" db:"signin_id"
 }
 
 func (x *AccountUpdateParams) Reset() {
@@ -226,14 +226,14 @@ type AccountResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`          // @gotags: json:"people_id" db:"people_id"
-	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                              // @gotags: json:"status" db:"status"
-	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at" db:"created_at"`       // @gotags: json:"created_at" db:"created_at"
-	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at" db:"updated_at"`       // @gotags: json:"updated_at" db:"updated_at"
+	PeopleId    string                 `protobuf:"bytes,1,opt,name=people_id,json=peopleId,proto3" json:"people_id" db:"people_id"`             // @gotags: json:"people_id" db:"people_id"
+	Status      string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status" db:"status"`                                    // @gotags: json:"status" db:"status"
+	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at" db:"created_at"`         // @gotags: json:"created_at" db:"created_at"
+	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at" db:"updated_at"`         // @gotags: json:"updated_at" db:"updated_at"
 	ValidatedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=validated_at,json=validatedAt,proto3" json:"validated_at" db:"validated_at"` // @gotags: json:"validated_at" db:"validated_at"
-	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`       // @gotags: json:"expired_at" db:"expired_at"
-	Password    string                 `protobuf:"bytes,7,opt,name=password,proto3" json:"password" db:"password"`                          // @gotags: json:"password" db:"password"
-	SigninId    string                 `protobuf:"bytes,8,opt,name=signin_id,json=signinId,proto3" json:"signin_id" db:"signin_id"`          // @gotags: json:"signin_id" db:"signin_id"
+	ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" db:"expired_at"`         // @gotags: json:"expired_at" db:"expired_at"
+	Password    string                 `protobuf:"bytes,7,opt,name=password,proto3" json:"password" db:"password"`                              // @gotags: json:"password" db:"password"
+	SigninId    string                 `protobuf:"bytes,8,opt,name=signin_id,json=signinId,proto3" json:"signin_id" db:"signin_id"`             // @gotags: json:"signin_id" db:"signin_id"
 }
 
 func (x *AccountResponse) Reset() {

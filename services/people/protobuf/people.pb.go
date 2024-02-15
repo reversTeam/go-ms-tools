@@ -30,8 +30,8 @@ type PeopleCreateParams struct {
 	unknownFields protoimpl.UnknownFields
 
 	Firstname string `protobuf:"bytes,1,opt,name=firstname,proto3" json:"firstname" db:"firstname"` // @gotags: json:"firstname" db:"firstname"
-	Lastname  string `protobuf:"bytes,2,opt,name=lastname,proto3" json:"lastname" db:"lastname"`   // @gotags: json:"lastname" db:"lastname"
-	Birthday  string `protobuf:"bytes,3,opt,name=birthday,proto3" json:"birthday" db:"birthday"`   // @gotags: json:"birthday" db:"birthday"
+	Lastname  string `protobuf:"bytes,2,opt,name=lastname,proto3" json:"lastname" db:"lastname"`    // @gotags: json:"lastname" db:"lastname"
+	Birthday  string `protobuf:"bytes,3,opt,name=birthday,proto3" json:"birthday" db:"birthday"`    // @gotags: json:"birthday" db:"birthday"
 }
 
 func (x *PeopleCreateParams) Reset() {
@@ -92,12 +92,12 @@ type PeopleUpdateParams struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id" db:"id"`                 // @gotags: json:"id" db:"id"
-	Status     string                 `protobuf:"bytes,2,opt,name=Status,proto3" json:"status" db:"status"`         // @gotags: json:"status" db:"status"
+	Id         string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id" db:"id"`                         // @gotags: json:"id" db:"id"
+	Status     string                 `protobuf:"bytes,2,opt,name=Status,proto3" json:"status" db:"status"`             // @gotags: json:"status" db:"status"
 	ExpireddAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=ExpireddAt,proto3" json:"expired_at" db:"expired_at"` // @gotags: json:"expired_at" db:"expired_at"
-	Firstname  string                 `protobuf:"bytes,4,opt,name=firstname,proto3" json:"firstname" db:"firstname"`   // @gotags: json:"firstname" db:"firstname"
-	Lastname   string                 `protobuf:"bytes,5,opt,name=lastname,proto3" json:"lastname" db:"lastname"`     // @gotags: json:"lastname" db:"lastname"
-	Birthday   string                 `protobuf:"bytes,6,opt,name=birthday,proto3" json:"birthday" db:"birthday"`     // @gotags: json:"birthday" db:"birthday"
+	Firstname  string                 `protobuf:"bytes,4,opt,name=firstname,proto3" json:"firstname" db:"firstname"`    // @gotags: json:"firstname" db:"firstname"
+	Lastname   string                 `protobuf:"bytes,5,opt,name=lastname,proto3" json:"lastname" db:"lastname"`       // @gotags: json:"lastname" db:"lastname"
+	Birthday   string                 `protobuf:"bytes,6,opt,name=birthday,proto3" json:"birthday" db:"birthday"`       // @gotags: json:"birthday" db:"birthday"
 }
 
 func (x *PeopleUpdateParams) Reset() {
@@ -179,14 +179,14 @@ type PeopleResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string                 `protobuf:"bytes,1,opt,name=Id,proto3" json:"id" db:"id"`               // @gotags: json:"id" db:"id"
-	Status    string                 `protobuf:"bytes,2,opt,name=Status,proto3" json:"status" db:"status"`       // @gotags: json:"status" db:"status"
+	Id        string                 `protobuf:"bytes,1,opt,name=Id,proto3" json:"id" db:"id"`                        // @gotags: json:"id" db:"id"
+	Status    string                 `protobuf:"bytes,2,opt,name=Status,proto3" json:"status" db:"status"`            // @gotags: json:"status" db:"status"
 	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=CreatedAt,proto3" json:"created_at" db:"created_at"` // @gotags: json:"created_at" db:"created_at"
 	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=UpdatedAt,proto3" json:"updated_at" db:"updated_at"` // @gotags: json:"updated_at" db:"updated_at"
 	ExpiredAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=ExpiredAt,proto3" json:"expired_at" db:"expired_at"` // @gotags: json:"expired_at" db:"expired_at"
-	Firstname string                 `protobuf:"bytes,6,opt,name=Firstname,proto3" json:"firstname" db:"firstname"` // @gotags: json:"firstname" db:"firstname"
-	Lastname  string                 `protobuf:"bytes,7,opt,name=Lastname,proto3" json:"lastname" db:"lastname"`   // @gotags: json:"lastname" db:"lastname"
-	Birthday  string                 `protobuf:"bytes,8,opt,name=Birthday,proto3" json:"birthday" db:"birthday"`   // @gotags: json:"birthday" db:"birthday"
+	Firstname string                 `protobuf:"bytes,6,opt,name=Firstname,proto3" json:"firstname" db:"firstname"`   // @gotags: json:"firstname" db:"firstname"
+	Lastname  string                 `protobuf:"bytes,7,opt,name=Lastname,proto3" json:"lastname" db:"lastname"`      // @gotags: json:"lastname" db:"lastname"
+	Birthday  string                 `protobuf:"bytes,8,opt,name=Birthday,proto3" json:"birthday" db:"birthday"`      // @gotags: json:"birthday" db:"birthday"
 }
 
 func (x *PeopleResponse) Reset() {
