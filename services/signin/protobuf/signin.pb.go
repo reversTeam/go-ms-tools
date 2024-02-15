@@ -27,11 +27,11 @@ type RegisterRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Email     string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Firstname string `protobuf:"bytes,2,opt,name=firstname,proto3" json:"firstname,omitempty"`
-	Lastname  string `protobuf:"bytes,3,opt,name=lastname,proto3" json:"lastname,omitempty"`
-	Birthday  string `protobuf:"bytes,4,opt,name=birthday,proto3" json:"birthday,omitempty"`
-	Password  string `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
+	Email     string `protobuf:"bytes,1,opt,name=email,proto3" json:"email" db:"email"`         // @gotags: json:"email" db:"email"
+	Firstname string `protobuf:"bytes,2,opt,name=firstname,proto3" json:"firstname" db:"firstname"` // @gotags: json:"firstname" db:"firstname"
+	Lastname  string `protobuf:"bytes,3,opt,name=lastname,proto3" json:"lastname" db:"lastname"`   // @gotags: json:"lastname" db:"lastname"
+	Birthday  string `protobuf:"bytes,4,opt,name=birthday,proto3" json:"birthday" db:"birthday"`   // @gotags: json:"birthday" db:"birthday"
+	Password  string `protobuf:"bytes,5,opt,name=password,proto3" json:"password" db:"password"`   // @gotags: json:"password" db:"password"
 }
 
 func (x *RegisterRequest) Reset() {
@@ -106,8 +106,8 @@ type ValidateSigninRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id              string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ValidationToken string `protobuf:"bytes,2,opt,name=validation_token,json=validationToken,proto3" json:"validation_token,omitempty"`
+	Id              string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" db:"id"`                                                  // @gotags: json:"id" db:"id"
+	ValidationToken string `protobuf:"bytes,2,opt,name=validation_token,json=validationToken,proto3" json:"validation_token" db:"validation_token"` // @gotags: json:"validation_token" db:"validation_token"
 }
 
 func (x *ValidateSigninRequest) Reset() {

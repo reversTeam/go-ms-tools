@@ -68,12 +68,14 @@
         "parameters": [
           {
             "name": "id",
+            "description": "@gotags: json:\"id\" db:\"id\"",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
             "name": "validationToken",
+            "description": "@gotags: json:\"validation_token\" db:\"validation_token\"",
             "in": "path",
             "required": true,
             "type": "string"
@@ -89,8 +91,9 @@
     "absResponse": {
       "type": "object",
       "properties": {
-        "message": {
-          "type": "string"
+        "Message": {
+          "type": "string",
+          "title": "@gotags: json:\"message\""
         }
       }
     },
@@ -126,19 +129,24 @@
       "type": "object",
       "properties": {
         "email": {
-          "type": "string"
+          "type": "string",
+          "title": "@gotags: json:\"email\" db:\"email\""
         },
         "firstname": {
-          "type": "string"
+          "type": "string",
+          "title": "@gotags: json:\"firstname\" db:\"firstname\""
         },
         "lastname": {
-          "type": "string"
+          "type": "string",
+          "title": "@gotags: json:\"lastname\" db:\"lastname\""
         },
         "birthday": {
-          "type": "string"
+          "type": "string",
+          "title": "@gotags: json:\"birthday\" db:\"birthday\""
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "title": "@gotags: json:\"password\" db:\"password\""
         }
       }
     }

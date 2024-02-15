@@ -12,6 +12,8 @@ import (
 	"github.com/reversTeam/go-ms-tools/pkg/scylla"
 	"github.com/reversTeam/go-ms-tools/services/abs"
 	pbAbs "github.com/reversTeam/go-ms-tools/services/abs/protobuf"
+	pbAccount "github.com/reversTeam/go-ms-tools/services/account/protobuf"
+	pbEmail "github.com/reversTeam/go-ms-tools/services/email/protobuf"
 	pbPeople "github.com/reversTeam/go-ms-tools/services/people/protobuf"
 	pb "github.com/reversTeam/go-ms-tools/services/signin/protobuf"
 	"github.com/reversTeam/go-ms/core"
@@ -117,14 +119,18 @@ func (o *Service) Validate(ctx context.Context, req *pb.ValidateSigninRequest) (
 		Firstname       string
 		Lastname        string
 		Birthday        string
+		Password        string
+		Email           string
 	}
 
-	if err := o.scyllaAuth.GetOne(`SELECT id, status, firstname, lastname, birthday, expired_at, validation_token FROM signin WHERE id = ?`, req.Id).Scan(
+	if err := o.scyllaAuth.GetOne(`SELECT id, status, firstname, lastname, birthday, email, password, expired_at, validation_token FROM signin WHERE id = ?`, req.Id).Scan(
 		&signin.ID,
 		&signin.Status,
 		&signin.Firstname,
 		&signin.Lastname,
 		&signin.Birthday,
+		&signin.Email,
+		&signin.Password,
 		&signin.ExpiredAt,
 		&signin.ValidationToken,
 	); err != nil {
@@ -146,23 +152,54 @@ func (o *Service) Validate(ctx context.Context, req *pb.ValidateSigninRequest) (
 		return nil, fmt.Errorf("invalid validation token")
 	}
 
-	peopleGrpcClient, err := o.ClientManager.GetClient("people")
+	iPeopleGrpcClient, err := o.ClientManager.GetClient("people")
 	if err != nil {
 		return nil, err
 	}
-
-	_, err = peopleGrpcClient.(pbPeople.PeopleClient).Create(ctx, &pbPeople.PeopleCreateParams{
+	peopleGrpcClient := iPeopleGrpcClient.(pbPeople.PeopleClient)
+	peopleResponse, err := peopleGrpcClient.(pbPeople.PeopleClient).Create(ctx, &pbPeople.PeopleCreateParams{
 		Firstname: signin.Firstname,
 		Lastname:  signin.Lastname,
 		Birthday:  signin.Birthday,
 	})
-
 	if err != nil {
+		log.Printf("BIRTHDAY PEOPLE: %s\n", signin.Birthday)
+		log.Printf("ERROR WHEN CREATE PEOPLE: %s\n", err)
+		return nil, err
+	}
+
+	iEmailGrpcClient, err := o.ClientManager.GetClient("email")
+	if err != nil {
+		return nil, err
+	}
+	emailGrpcClient := iEmailGrpcClient.(pbEmail.EmailClient)
+	emailResponse, err := emailGrpcClient.Create(ctx, &pbEmail.EmailCreateParams{
+		PeopleId: peopleResponse.Id,
+		Email:    signin.Email,
+		Status:   "validated",
+	})
+	if err != nil {
+		log.Printf("ERROR WHEN CREATE EMAIL: %s\n", err)
+		return nil, err
+	}
+
+	iAccountGrpcClient, err := o.ClientManager.GetClient("account")
+	if err != nil {
+		return nil, err
+	}
+	accountGrpcClient := iAccountGrpcClient.(pbAccount.AccountClient)
+	accountResponse, err := accountGrpcClient.Create(ctx, &pbAccount.AccountCreateParams{
+		PeopleId: emailResponse.PeopleId,
+		Password: signin.Password,
+		Status:   "validated",
+	})
+	if err != nil {
+		log.Printf("ERROR WHEN CREATE ACCOUNT: %s\n", err)
 		return nil, err
 	}
 
 	// Mise à jour du statut de validation en base
-	if err := o.scyllaAuth.ExecuteQuery(`UPDATE signin SET status = 'validated', validated_at = ? WHERE id = ?`, time.Now(), req.Id); err != nil {
+	if err := o.scyllaAuth.ExecuteQuery(`UPDATE signin SET status = 'validated', validated_at = ?, account_id = ? WHERE id = ?`, time.Now(), accountResponse.PeopleId, req.Id); err != nil {
 		return nil, fmt.Errorf("error updating signin validation status: %v", err)
 	}
 

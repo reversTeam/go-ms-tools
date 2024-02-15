@@ -15,7 +15,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-// Define the service structure
 type Service struct {
 	*abs.Service
 	pb.UnimplementedPeopleServer
@@ -90,17 +89,21 @@ func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*pb.PeopleResp
 	return &people, err
 }
 
-func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*ms.Response, error) {
+func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*pb.PeopleResponse, error) {
 	id, err := gocql.RandomUUID()
 	if err != nil {
 		return nil, err
 	}
+
 	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, firstname, lastname, birthday) VALUES (?, ?, ?, ?)", id, in.Firstname, in.Lastname, in.Birthday); err != nil {
 		return nil, err
 	}
 
-	return &ms.Response{
-		Message: "Person created successfully",
+	return &pb.PeopleResponse{
+		Id:        id.String(),
+		Firstname: in.Firstname,
+		Lastname:  in.Lastname,
+		Birthday:  in.Birthday,
 	}, nil
 }
 

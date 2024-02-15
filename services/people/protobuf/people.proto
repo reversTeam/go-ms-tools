@@ -10,29 +10,29 @@ import "google/protobuf/timestamp.proto";
 import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
 
 message PeopleCreateParams {
-    string firstname = 1;
-    string lastname = 2;
-    string birthday = 4;
+    string firstname = 1; // @gotags: json:"firstname" db:"firstname"
+    string lastname = 2; 	// @gotags: json:"lastname" db:"lastname"
+    string birthday = 3; 	// @gotags: json:"birthday" db:"birthday"
 }
 
 message PeopleUpdateParams {
-  string id = 1;
-	string Status = 2 [json_name="status"];
-	google.protobuf.Timestamp ExpireddAt = 3 [json_name="expired_at"];
-  string firstname = 4;
-  string lastname = 5;
-  string birthday = 6;
+  string id = 1; 															// @gotags: json:"id" db:"id"
+	string Status = 2 ; 												// @gotags: json:"status" db:"status"
+	google.protobuf.Timestamp ExpireddAt = 3 ; 	// @gotags: json:"expired_at" db:"expired_at"
+  string firstname = 4; 											// @gotags: json:"firstname" db:"firstname"
+  string lastname = 5; 												// @gotags: json:"lastname" db:"lastname"
+  string birthday = 6; 												// @gotags: json:"birthday" db:"birthday"
 }
 
 message PeopleResponse {
-	string Id = 1 [json_name="id"];
-	string Status = 2 [json_name="status"];
-	google.protobuf.Timestamp CreatedAt = 3 [json_name = "created_at"];
-	google.protobuf.Timestamp UpdatedAt = 4 [json_name="updated_at"];
-	google.protobuf.Timestamp ExpiredAt = 5 [json_name="expired_at"];
-  string Firstname = 6 [json_name="firstname"];
-  string Lastname = 7 [json_name="lastname"];
-  string Birthday = 8 [json_name="birthday"];
+	string Id = 1 ; 													// @gotags: json:"id" db:"id"
+	string Status = 2 ; 											// @gotags: json:"status" db:"status"
+	google.protobuf.Timestamp CreatedAt = 3 ; // @gotags: json:"created_at" db:"created_at"
+	google.protobuf.Timestamp UpdatedAt = 4 ; // @gotags: json:"updated_at" db:"updated_at"
+	google.protobuf.Timestamp ExpiredAt = 5 ; // @gotags: json:"expired_at" db:"expired_at"
+  string Firstname = 6 ; 										// @gotags: json:"firstname" db:"firstname"
+  string Lastname = 7 ; 										// @gotags: json:"lastname" db:"lastname"
+  string Birthday = 8 ; 										// @gotags: json:"birthday" db:"birthday"
 }
 
 service People {
@@ -43,7 +43,7 @@ service People {
 		};
 	}
 
-	rpc Create(PeopleCreateParams) returns (abs.Response) {
+	rpc Create(PeopleCreateParams) returns (PeopleResponse) {
 		option (google.api.http) = {
 			post: "/people"
 			body: "*"
