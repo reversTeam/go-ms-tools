@@ -2,6 +2,7 @@ package people
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gocql/gocql"
 	"github.com/golang/protobuf/ptypes/empty"
@@ -12,9 +13,9 @@ import (
 	pb "github.com/reversTeam/go-ms-tools/services/people/protobuf"
 	"github.com/reversTeam/go-ms/core"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
-// Define the service structure
 type Service struct {
 	*abs.Service
 	pb.UnimplementedPeopleServer
@@ -45,6 +46,10 @@ func (o *Service) RegisterHttp(gh *core.GoMsHttpServer, endpoint string) error {
 
 func (o *Service) RegisterGrpc(gs *core.GoMsGrpcServer) {
 	pb.RegisterPeopleServer(gs.Server, o)
+}
+
+func (o *Service) GetClient(conn *grpc.ClientConn) any {
+	return pb.NewPeopleClient(conn)
 }
 
 func (o *Service) List(in *empty.Empty, stream pb.People_ListServer) error {
@@ -85,20 +90,28 @@ func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*pb.PeopleResp
 	return &people, err
 }
 
-func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*ms.Response, error) {
-	id := gocql.TimeUUID()
-	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, firstname, lastname, birthday) VALUES (?, ?, ?, ?)", id, in.Firstname, in.Lastname, in.Birthday); err != nil {
+func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*pb.PeopleResponse, error) {
+	id, err := gocql.RandomUUID()
+	if err != nil {
 		return nil, err
 	}
 
-	return &ms.Response{
-		Message: "Person created successfully",
+	now := time.Now()
+	if err := o.scyllaGlobal.ExecuteQuery("INSERT INTO people (id, created_at, updated_at, status, firstname, lastname, birthday) VALUES (?, ?, ?, ?, ?, ?, ?)", id, now, now, "validated", in.Firstname, in.Lastname, in.Birthday); err != nil {
+		return nil, err
+	}
+
+	return &pb.PeopleResponse{
+		Id:        id.String(),
+		Firstname: in.Firstname,
+		Lastname:  in.Lastname,
+		Birthday:  in.Birthday,
 	}, nil
 }
 
 func (o *Service) Update(ctx context.Context, in *pb.PeopleUpdateParams) (*ms.Response, error) {
-	if err := o.scyllaGlobal.ExecuteQuery("UPDATE people SET firstname = ?, lastname = ?,  birthday = ? WHERE id = ?",
-		in.Firstname, in.Lastname, in.Birthday, in.Id); err != nil {
+	if err := o.scyllaGlobal.ExecuteQuery("UPDATE people SET updated_at = ?, firstname = ?, lastname = ?,  birthday = ? WHERE id = ?",
+		time.Now(), in.Firstname, in.Lastname, in.Birthday, in.Id); err != nil {
 		return nil, err
 	}
 

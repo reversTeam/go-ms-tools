@@ -1,0 +1,154 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "services/signin/protobuf/signin.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Signin"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/signin": {
+      "post": {
+        "operationId": "Signin_Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/absResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/signinRegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Signin"
+        ]
+      }
+    },
+    "/signin/{id}/{validationToken}": {
+      "get": {
+        "operationId": "Signin_Validate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/absResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "@gotags: json:\"id\" db:\"id\" validate:\"required,uuid4_rfc4122\"`",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "validationToken",
+            "description": "@gotags: json:\"validation_token\" db:\"validation_token\"",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Signin"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "absResponse": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string",
+          "title": "@gotags: json:\"message\""
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "signinRegisterRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "title": "@gotags: json:\"email\" db:\"email\" validate:\"required,email\"`"
+        },
+        "firstname": {
+          "type": "string",
+          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
+        },
+        "lastname": {
+          "type": "string",
+          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
+        },
+        "birthday": {
+          "type": "string",
+          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
+        },
+        "password": {
+          "type": "string",
+          "title": "@gotags: json:\"password\" db:\"password\" validate:\"required,alphanumunicode\"`"
+        }
+      }
+    }
+  }
+}

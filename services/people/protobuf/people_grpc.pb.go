@@ -33,7 +33,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PeopleClient interface {
 	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (People_ListClient, error)
-	Create(ctx context.Context, in *PeopleCreateParams, opts ...grpc.CallOption) (*protobuf.Response, error)
+	Create(ctx context.Context, in *PeopleCreateParams, opts ...grpc.CallOption) (*PeopleResponse, error)
 	Get(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*PeopleResponse, error)
 	Update(ctx context.Context, in *PeopleUpdateParams, opts ...grpc.CallOption) (*protobuf.Response, error)
 	Delete(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error)
@@ -79,8 +79,8 @@ func (x *peopleListClient) Recv() (*PeopleResponse, error) {
 	return m, nil
 }
 
-func (c *peopleClient) Create(ctx context.Context, in *PeopleCreateParams, opts ...grpc.CallOption) (*protobuf.Response, error) {
-	out := new(protobuf.Response)
+func (c *peopleClient) Create(ctx context.Context, in *PeopleCreateParams, opts ...grpc.CallOption) (*PeopleResponse, error) {
+	out := new(PeopleResponse)
 	err := c.cc.Invoke(ctx, People_Create_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (c *peopleClient) Delete(ctx context.Context, in *protobuf.EntityRequest, o
 // for forward compatibility
 type PeopleServer interface {
 	List(*emptypb.Empty, People_ListServer) error
-	Create(context.Context, *PeopleCreateParams) (*protobuf.Response, error)
+	Create(context.Context, *PeopleCreateParams) (*PeopleResponse, error)
 	Get(context.Context, *protobuf.EntityRequest) (*PeopleResponse, error)
 	Update(context.Context, *PeopleUpdateParams) (*protobuf.Response, error)
 	Delete(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error)
@@ -134,7 +134,7 @@ type UnimplementedPeopleServer struct {
 func (UnimplementedPeopleServer) List(*emptypb.Empty, People_ListServer) error {
 	return status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedPeopleServer) Create(context.Context, *PeopleCreateParams) (*protobuf.Response, error) {
+func (UnimplementedPeopleServer) Create(context.Context, *PeopleCreateParams) (*PeopleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedPeopleServer) Get(context.Context, *protobuf.EntityRequest) (*PeopleResponse, error) {

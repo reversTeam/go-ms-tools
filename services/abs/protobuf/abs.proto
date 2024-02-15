@@ -43,9 +43,9 @@ service Abs {
 }
 
 message Response {
-	string Message = 1 [json_name="message"];
+	string Message = 1; // @gotags: json:"message"
 }
 
 message EntityRequest {
-	string id = 2 [json_name="id"];
+	string id = 2; // @gotags: json:"id" db:"id"
 }

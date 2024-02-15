@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "services/people/protobuf/people.proto",
+    "title": "services/email/protobuf/email.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "People"
+      "name": "Email"
     }
   ],
   "consumes": [
@@ -16,9 +16,9 @@
     "application/json"
   ],
   "paths": {
-    "/people": {
+    "/emails": {
       "get": {
-        "operationId": "People_List",
+        "operationId": "Email_List",
         "responses": {
           "200": {
             "description": "A successful response.(streaming responses)",
@@ -26,13 +26,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/peoplePeopleResponse"
+                  "$ref": "#/definitions/emailEmailResponse"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of peoplePeopleResponse"
+              "title": "Stream result of emailEmailResponse"
             }
           },
           "default": {
@@ -43,16 +43,16 @@
           }
         },
         "tags": [
-          "People"
+          "Email"
         ]
       },
       "post": {
-        "operationId": "People_Create",
+        "operationId": "Email_Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/peoplePeopleResponse"
+              "$ref": "#/definitions/emailEmailResponse"
             }
           },
           "default": {
@@ -68,23 +68,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/peoplePeopleCreateParams"
+              "$ref": "#/definitions/emailEmailCreateParams"
             }
           }
         ],
         "tags": [
-          "People"
+          "Email"
         ]
       }
     },
-    "/people/{id}": {
+    "/emails/{peopleId}/{email}": {
       "get": {
-        "operationId": "People_Get",
+        "operationId": "Email_Get",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/peoplePeopleResponse"
+              "$ref": "#/definitions/emailEmailResponse"
             }
           },
           "default": {
@@ -96,19 +96,26 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\"",
+            "name": "peopleId",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\"",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "description": "@gotags: json:\"email\" db:\"email\"",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "People"
+          "Email"
         ]
       },
       "delete": {
-        "operationId": "People_Delete",
+        "operationId": "Email_Delete",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -125,19 +132,26 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\"",
+            "name": "peopleId",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\"",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "description": "@gotags: json:\"email\" db:\"email\"",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "People"
+          "Email"
         ]
       },
       "patch": {
-        "operationId": "People_Update",
+        "operationId": "Email_Update",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -154,8 +168,15 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\" validate:\"required,uuid4_rfc4122\"`",
+            "name": "peopleId",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\"",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "description": "@gotags: json:\"email\" db:\"email\"",
             "in": "path",
             "required": true,
             "type": "string"
@@ -165,40 +186,33 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PeopleUpdateBody"
+              "$ref": "#/definitions/EmailUpdateBody"
             }
           }
         ],
         "tags": [
-          "People"
+          "Email"
         ]
       }
     }
   },
   "definitions": {
-    "PeopleUpdateBody": {
+    "EmailUpdateBody": {
       "type": "object",
       "properties": {
-        "Status": {
+        "status": {
           "type": "string",
-          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required,alpha\"`"
+          "title": "@gotags: json:\"status\" db:\"status\""
         },
-        "ExpireddAt": {
+        "validatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@gotags: json:\"validated_at\" db:\"validated_at\""
+        },
+        "expiredAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"expired_at\" db:\"expired_at\""
-        },
-        "firstname": {
-          "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
-        },
-        "lastname": {
-          "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
-        },
-        "birthday": {
-          "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
         }
       }
     },
@@ -211,60 +225,57 @@
         }
       }
     },
-    "peoplePeopleCreateParams": {
+    "emailEmailCreateParams": {
       "type": "object",
       "properties": {
-        "firstname": {
+        "peopleId": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
+          "title": "@gotags: json:\"people_id\" db:\"people_id\""
         },
-        "lastname": {
+        "email": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
+          "title": "@gotags: json:\"email\" db:\"email\""
         },
-        "birthday": {
+        "status": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
+          "title": "@gotags: json:\"status\" db:\"status\""
         }
       }
     },
-    "peoplePeopleResponse": {
+    "emailEmailResponse": {
       "type": "object",
       "properties": {
-        "Id": {
+        "peopleId": {
           "type": "string",
-          "title": "@gotags: json:\"id\" db:\"id\""
+          "title": "@gotags: json:\"people_id\" db:\"people_id\""
         },
-        "Status": {
+        "status": {
           "type": "string",
           "title": "@gotags: json:\"status\" db:\"status\""
         },
-        "CreatedAt": {
+        "createdAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"created_at\" db:\"created_at\""
         },
-        "UpdatedAt": {
+        "updatedAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"updated_at\" db:\"updated_at\""
         },
-        "ExpiredAt": {
+        "validatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@gotags: json:\"validated_at\" db:\"validated_at\""
+        },
+        "expiredAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"expired_at\" db:\"expired_at\""
         },
-        "Firstname": {
+        "email": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\""
-        },
-        "Lastname": {
-          "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\""
-        },
-        "Birthday": {
-          "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\""
+          "title": "@gotags: json:\"email\" db:\"email\""
         }
       }
     },

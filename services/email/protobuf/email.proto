@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package go.micro.service.email;
+
+option go_package = "github.com/reversTeam/go-ms-tools/services/email/protobuf";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
+
+message EmailEntity {
+  string people_id = 1; // @gotags: json:"people_id" db:"people_id"
+  string email = 2;     // @gotags: json:"email" db:"email"
+}
+
+message EmailCreateParams {
+    string people_id = 1;  // @gotags: json:"people_id" db:"people_id"
+    string email = 2;  // @gotags: json:"email" db:"email"
+    string status = 3; // @gotags: json:"status" db:"status"
+}
+
+message EmailUpdateParams {
+    string people_id = 1;                                 // @gotags: json:"people_id" db:"people_id"
+    string status = 2;                                    // @gotags: json:"status" db:"status"
+    google.protobuf.Timestamp validated_at = 3;           // @gotags: json:"validated_at" db:"validated_at"
+    google.protobuf.Timestamp expired_at = 4;             // @gotags: json:"expired_at" db:"expired_at"
+    string email = 5;                                     // @gotags: json:"email" db:"email"
+}
+
+message EmailResponse {
+    string people_id = 1;                                 // @gotags: json:"people_id" db:"people_id"
+    string status = 2;                                    // @gotags: json:"status" db:"status"
+    google.protobuf.Timestamp created_at = 3;             // @gotags: json:"created_at" db:"created_at"
+    google.protobuf.Timestamp updated_at = 4;             // @gotags: json:"updated_at" db:"updated_at"
+    google.protobuf.Timestamp validated_at = 5;           // @gotags: json:"validated_at" db:"validated_at"
+    google.protobuf.Timestamp expired_at = 6;             // @gotags: json:"expired_at" db:"expired_at"
+    string email = 7;                                     // @gotags: json:"email" db:"email"
+}
+
+service Email {
+
+    rpc List(google.protobuf.Empty) returns (stream EmailResponse) {
+        option (google.api.http) = {
+            get: "/emails"
+        };
+    }
+
+    rpc Create(EmailCreateParams) returns (EmailResponse) {
+        option (google.api.http) = {
+            post: "/emails"
+            body: "*"
+        };
+    }
+
+    rpc Get(EmailEntity) returns (EmailResponse) {
+        option (google.api.http) = {
+            get: "/emails/{people_id}/{email}"
+        };
+    }
+
+    rpc Update(EmailUpdateParams) returns (abs.Response) {
+        option (google.api.http) = {
+            patch: "/emails/{people_id}/{email}"
+            body: "*"
+        };
+    }
+
+    rpc Delete(EmailEntity) returns (abs.Response) {
+        option (google.api.http) = {
+            delete: "/emails/{people_id}/{email}"
+        };
+    }
+}

@@ -89,6 +89,7 @@
         "parameters": [
           {
             "name": "id",
+            "description": "@gotags: json:\"id\" db:\"id\"",
             "in": "path",
             "required": true,
             "type": "string"
@@ -117,6 +118,7 @@
         "parameters": [
           {
             "name": "id",
+            "description": "@gotags: json:\"id\" db:\"id\"",
             "in": "path",
             "required": true,
             "type": "string"
@@ -145,6 +147,7 @@
         "parameters": [
           {
             "name": "id",
+            "description": "@gotags: json:\"id\" db:\"id\"",
             "in": "path",
             "required": true,
             "type": "string"
@@ -171,8 +174,9 @@
     "absResponse": {
       "type": "object",
       "properties": {
-        "message": {
-          "type": "string"
+        "Message": {
+          "type": "string",
+          "title": "@gotags: json:\"message\""
         }
       }
     },

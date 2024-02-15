@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "services/people/protobuf/people.proto",
+    "title": "services/account/protobuf/account.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "People"
+      "name": "Account"
     }
   ],
   "consumes": [
@@ -16,9 +16,9 @@
     "application/json"
   ],
   "paths": {
-    "/people": {
+    "/accounts": {
       "get": {
-        "operationId": "People_List",
+        "operationId": "Account_List",
         "responses": {
           "200": {
             "description": "A successful response.(streaming responses)",
@@ -26,13 +26,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/peoplePeopleResponse"
+                  "$ref": "#/definitions/accountAccountResponse"
                 },
                 "error": {
                   "$ref": "#/definitions/rpcStatus"
                 }
               },
-              "title": "Stream result of peoplePeopleResponse"
+              "title": "Stream result of accountAccountResponse"
             }
           },
           "default": {
@@ -43,16 +43,16 @@
           }
         },
         "tags": [
-          "People"
+          "Account"
         ]
       },
       "post": {
-        "operationId": "People_Create",
+        "operationId": "Account_Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/peoplePeopleResponse"
+              "$ref": "#/definitions/accountAccountResponse"
             }
           },
           "default": {
@@ -68,23 +68,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/peoplePeopleCreateParams"
+              "$ref": "#/definitions/accountAccountCreateParams"
             }
           }
         ],
         "tags": [
-          "People"
+          "Account"
         ]
       }
     },
-    "/people/{id}": {
+    "/accounts/{peopleId}": {
       "get": {
-        "operationId": "People_Get",
+        "operationId": "Account_Get",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/peoplePeopleResponse"
+              "$ref": "#/definitions/accountAccountResponse"
             }
           },
           "default": {
@@ -96,19 +96,19 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\"",
+            "name": "peopleId",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\"",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "People"
+          "Account"
         ]
       },
       "delete": {
-        "operationId": "People_Delete",
+        "operationId": "Account_Delete",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -125,19 +125,19 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\"",
+            "name": "peopleId",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\"",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "tags": [
-          "People"
+          "Account"
         ]
       },
       "patch": {
-        "operationId": "People_Update",
+        "operationId": "Account_Update",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -154,8 +154,8 @@
         },
         "parameters": [
           {
-            "name": "id",
-            "description": "@gotags: json:\"id\" db:\"id\" validate:\"required,uuid4_rfc4122\"`",
+            "name": "peopleId",
+            "description": "@gotags: json:\"people_id\" db:\"people_id\" validate:\"required,uuid4_rfc4122\"`",
             "in": "path",
             "required": true,
             "type": "string"
@@ -165,40 +165,45 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PeopleUpdateBody"
+              "$ref": "#/definitions/AccountUpdateBody"
             }
           }
         ],
         "tags": [
-          "People"
+          "Account"
         ]
       }
     }
   },
   "definitions": {
-    "PeopleUpdateBody": {
+    "AccountUpdateBody": {
       "type": "object",
       "properties": {
-        "Status": {
+        "status": {
           "type": "string",
-          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required,alpha\"`"
+          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required\"`"
         },
-        "ExpireddAt": {
+        "validatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@gotags: json:\"validated_at\" db:\"validated_at\""
+        },
+        "expiredAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"expired_at\" db:\"expired_at\""
         },
-        "firstname": {
+        "email": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
+          "title": "@gotags: json:\"email\" db:\"email\" validate:\"required,email\"`"
         },
-        "lastname": {
+        "password": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
+          "title": "@gotags: json:\"password\" db:\"password\" validate:\"required\"`"
         },
-        "birthday": {
+        "signinId": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
+          "title": "@gotags: json:\"signin_id\" db:\"signin_id\" validate:\"required,uuid4_rfc4122\"`"
         }
       }
     },
@@ -211,60 +216,73 @@
         }
       }
     },
-    "peoplePeopleCreateParams": {
+    "accountAccountCreateParams": {
       "type": "object",
       "properties": {
-        "firstname": {
+        "peopleId": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\" validate:\"required,alphanumunicode\"`"
+          "title": "@gotags: json:\"people_id\" db:\"people_id\" validate:\"required,uuid4_rfc4122\"`"
         },
-        "lastname": {
+        "signinId": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\" validate:\"required,alphanumunicode\"`"
+          "title": "@gotags: json:\"signin_id\" db:\"sigmin_id\" validate:\"required,uuid4_rfc4122\"`"
         },
-        "birthday": {
+        "password": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\" validate:\"required\"`"
+          "title": "@gotags: json:\"password\" db:\"password\" validate:\"required\"`"
+        },
+        "email": {
+          "type": "string",
+          "title": "@gotags: json:\"email\" db:\"email\" validate:\"required,email\"`"
+        },
+        "status": {
+          "type": "string",
+          "title": "@gotags: json:\"status\" db:\"status\" validate:\"required,alphanumunicode\"`"
         }
       }
     },
-    "peoplePeopleResponse": {
+    "accountAccountResponse": {
       "type": "object",
       "properties": {
-        "Id": {
+        "peopleId": {
           "type": "string",
-          "title": "@gotags: json:\"id\" db:\"id\""
+          "title": "@gotags: json:\"people_id\" db:\"people_id\""
         },
-        "Status": {
+        "status": {
           "type": "string",
           "title": "@gotags: json:\"status\" db:\"status\""
         },
-        "CreatedAt": {
+        "createdAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"created_at\" db:\"created_at\""
         },
-        "UpdatedAt": {
+        "updatedAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"updated_at\" db:\"updated_at\""
         },
-        "ExpiredAt": {
+        "validatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@gotags: json:\"validated_at\" db:\"validated_at\""
+        },
+        "expiredAt": {
           "type": "string",
           "format": "date-time",
           "title": "@gotags: json:\"expired_at\" db:\"expired_at\""
         },
-        "Firstname": {
+        "email": {
           "type": "string",
-          "title": "@gotags: json:\"firstname\" db:\"firstname\""
+          "title": "@gotags: json:\"email\" db:\"email\""
         },
-        "Lastname": {
+        "password": {
           "type": "string",
-          "title": "@gotags: json:\"lastname\" db:\"lastname\""
+          "title": "@gotags: json:\"password\" db:\"password\""
         },
-        "Birthday": {
+        "signinId": {
           "type": "string",
-          "title": "@gotags: json:\"birthday\" db:\"birthday\""
+          "title": "@gotags: json:\"signin_id\" db:\"signin_id\""
         }
       }
     },

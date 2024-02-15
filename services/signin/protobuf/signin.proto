@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package go.micro.service.signin;
+
+option go_package = "github.com/reversTeam/go-ms-tools/services/signin/protobuf";
+
+import "google/api/annotations.proto";
+import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
+
+message RegisterRequest {
+  string email = 1;     // @gotags: json:"email" db:"email" validate:"required,email"`
+  string firstname = 2; // @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+  string lastname = 3;  // @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+  string birthday = 4;  // @gotags: json:"birthday" db:"birthday" validate:"required"`
+  string password = 5;  // @gotags: json:"password" db:"password" validate:"required,alphanumunicode"`
+}
+
+message ValidateSigninRequest {
+  string id = 1;                // @gotags: json:"id" db:"id" validate:"required,uuid4_rfc4122"`
+  string validation_token = 2;  // @gotags: json:"validation_token" db:"validation_token"
+}
+
+
+service Signin {
+  rpc Register(RegisterRequest) returns (abs.Response) {
+    option (google.api.http) = {
+      post: "/signin"
+      body: "*"
+    };
+  }
+
+  rpc Validate(ValidateSigninRequest) returns (abs.Response) {
+    option (google.api.http) = {
+      get: "/signin/{id}/{validation_token}"
+    };
+  }
+}
