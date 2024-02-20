@@ -1,7 +1,7 @@
 package people
 
 import (
-	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/gocql/gocql"
@@ -53,14 +53,11 @@ func (o *Service) GetClient(conn *grpc.ClientConn) any {
 }
 
 func (o *Service) List(in *empty.Empty, stream pb.People_ListServer) error {
-	_, scyllaSpan := core.Trace(stream.Context(), "people", "List")
-	defer scyllaSpan.End()
-
 	q := o.scyllaGlobal.Get("SELECT id, status, firstname, lastname, birthday FROM people")
 
 	r := pb.PeopleResponse{}
 	id := &gocql.UUID{}
-	for q.Scan(id, &r.Status, &r.Firstname, &r.Lastname, &r.Birthday) { // Adapter les champs
+	for q.Scan(id, &r.Status, &r.Firstname, &r.Lastname, &r.Birthday) {
 		r.Id = id.String()
 		if err := stream.Send(&r); err != nil {
 			return err
@@ -74,20 +71,18 @@ func (o *Service) List(in *empty.Empty, stream pb.People_ListServer) error {
 	return nil
 }
 
-func (o *Service) Get(ctx context.Context, in *ms.EntityRequest) (*pb.PeopleResponse, error) {
-	id, err := gocql.ParseUUID(in.Id)
+func (o *Service) Get(ctx context.Context, in *pb.PeopleEntity) (*pb.PeopleResponse, error) {
+	var people pb.PeopleResponse
+	req := o.scyllaGlobal.GetOne("SELECT id, firstname, lastname, birthday FROM people WHERE id = ?", in.Id)
+	err := req.Scan(&people.Id, &people.Firstname, &people.Lastname, &people.Birthday)
 	if err != nil {
-		return nil, fmt.Errorf("invalid ID format: %v", err)
+		if err.Error() != core.ScyllaErrorNotFound {
+			return nil, core.NewHttpError(http.StatusNotFound, "People not found")
+		}
+		return nil, core.NewHttpError(http.StatusInternalServerError, "An internal error occured")
 	}
 
-	_, span := core.Trace(ctx, "people", "Get")
-	defer span.End()
-
-	var people pb.PeopleResponse
-	req := o.scyllaGlobal.GetOne("SELECT id, firstname, lastname, birthday FROM people WHERE id = ?", id)
-	err = req.Scan(&people.Id, &people.Firstname, &people.Lastname, &people.Birthday)
-
-	return &people, err
+	return &people, nil
 }
 
 func (o *Service) Create(ctx context.Context, in *pb.PeopleCreateParams) (*pb.PeopleResponse, error) {
@@ -120,7 +115,7 @@ func (o *Service) Update(ctx context.Context, in *pb.PeopleUpdateParams) (*ms.Re
 	}, nil
 }
 
-func (o *Service) Delete(ctx context.Context, in *ms.EntityRequest) (*ms.Response, error) {
+func (o *Service) Delete(ctx context.Context, in *pb.PeopleEntity) (*ms.Response, error) {
 	if err := o.scyllaGlobal.ExecuteQuery("DELETE FROM people WHERE id = ?", in.Id); err != nil {
 		return nil, err
 	}
