@@ -3,11 +3,10 @@ package middlewares
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/reversTeam/go-ms/core"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 type CheckParametersMiddleware struct {
@@ -23,7 +22,7 @@ func NewCheckParametersMiddleware() *CheckParametersMiddleware {
 
 func (v *CheckParametersMiddleware) Apply(ctx context.Context, req interface{}) (context.Context, interface{}, error) {
 	if v.validator == nil {
-		return ctx, req, status.Errorf(codes.Internal, "Validator is not initialized")
+		return ctx, req, core.NewHttpError(http.StatusInternalServerError)
 	}
 
 	err := v.validator.Struct(req)
@@ -33,10 +32,10 @@ func (v *CheckParametersMiddleware) Apply(ctx context.Context, req interface{}) 
 			for _, err := range validationErrors {
 				errMsg += fmt.Sprintf("Field validation for '%s' failed on the '%s' tag\n", err.Namespace(), err.Tag())
 			}
-			return ctx, req, status.Errorf(codes.InvalidArgument, "Validation failed: %s", errMsg)
+			return ctx, req, core.NewHttpError(http.StatusBadRequest, "Validation failed: %s", errMsg)
 		}
 
-		return ctx, req, status.Errorf(codes.Internal, "Unexpected validation error: %v", err)
+		return ctx, req, core.NewHttpError(http.StatusBadRequest, "Validation failed")
 	}
 
 	return ctx, req, nil

@@ -34,9 +34,9 @@ const (
 type PeopleClient interface {
 	List(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (People_ListClient, error)
 	Create(ctx context.Context, in *PeopleCreateParams, opts ...grpc.CallOption) (*PeopleResponse, error)
-	Get(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*PeopleResponse, error)
+	Get(ctx context.Context, in *PeopleEntity, opts ...grpc.CallOption) (*PeopleResponse, error)
 	Update(ctx context.Context, in *PeopleUpdateParams, opts ...grpc.CallOption) (*protobuf.Response, error)
-	Delete(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error)
+	Delete(ctx context.Context, in *PeopleEntity, opts ...grpc.CallOption) (*protobuf.Response, error)
 }
 
 type peopleClient struct {
@@ -88,7 +88,7 @@ func (c *peopleClient) Create(ctx context.Context, in *PeopleCreateParams, opts 
 	return out, nil
 }
 
-func (c *peopleClient) Get(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*PeopleResponse, error) {
+func (c *peopleClient) Get(ctx context.Context, in *PeopleEntity, opts ...grpc.CallOption) (*PeopleResponse, error) {
 	out := new(PeopleResponse)
 	err := c.cc.Invoke(ctx, People_Get_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -106,7 +106,7 @@ func (c *peopleClient) Update(ctx context.Context, in *PeopleUpdateParams, opts 
 	return out, nil
 }
 
-func (c *peopleClient) Delete(ctx context.Context, in *protobuf.EntityRequest, opts ...grpc.CallOption) (*protobuf.Response, error) {
+func (c *peopleClient) Delete(ctx context.Context, in *PeopleEntity, opts ...grpc.CallOption) (*protobuf.Response, error) {
 	out := new(protobuf.Response)
 	err := c.cc.Invoke(ctx, People_Delete_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -121,9 +121,9 @@ func (c *peopleClient) Delete(ctx context.Context, in *protobuf.EntityRequest, o
 type PeopleServer interface {
 	List(*emptypb.Empty, People_ListServer) error
 	Create(context.Context, *PeopleCreateParams) (*PeopleResponse, error)
-	Get(context.Context, *protobuf.EntityRequest) (*PeopleResponse, error)
+	Get(context.Context, *PeopleEntity) (*PeopleResponse, error)
 	Update(context.Context, *PeopleUpdateParams) (*protobuf.Response, error)
-	Delete(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error)
+	Delete(context.Context, *PeopleEntity) (*protobuf.Response, error)
 	mustEmbedUnimplementedPeopleServer()
 }
 
@@ -137,13 +137,13 @@ func (UnimplementedPeopleServer) List(*emptypb.Empty, People_ListServer) error {
 func (UnimplementedPeopleServer) Create(context.Context, *PeopleCreateParams) (*PeopleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedPeopleServer) Get(context.Context, *protobuf.EntityRequest) (*PeopleResponse, error) {
+func (UnimplementedPeopleServer) Get(context.Context, *PeopleEntity) (*PeopleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedPeopleServer) Update(context.Context, *PeopleUpdateParams) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedPeopleServer) Delete(context.Context, *protobuf.EntityRequest) (*protobuf.Response, error) {
+func (UnimplementedPeopleServer) Delete(context.Context, *PeopleEntity) (*protobuf.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedPeopleServer) mustEmbedUnimplementedPeopleServer() {}
@@ -199,7 +199,7 @@ func _People_Create_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _People_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(protobuf.EntityRequest)
+	in := new(PeopleEntity)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -211,7 +211,7 @@ func _People_Get_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: People_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeopleServer).Get(ctx, req.(*protobuf.EntityRequest))
+		return srv.(PeopleServer).Get(ctx, req.(*PeopleEntity))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -235,7 +235,7 @@ func _People_Update_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _People_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(protobuf.EntityRequest)
+	in := new(PeopleEntity)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -247,7 +247,7 @@ func _People_Delete_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: People_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeopleServer).Delete(ctx, req.(*protobuf.EntityRequest))
+		return srv.(PeopleServer).Delete(ctx, req.(*PeopleEntity))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -9,30 +9,34 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "github.com/reversTeam/go-ms-tools/services/abs/protobuf/abs.proto";
 
+message PeopleEntity {
+	string id = 1; 															// @gotags: json:"id" db:"id" xml:"id" validate:"required,uuid4_rfc4122"`
+}
+
 message PeopleCreateParams {
-    string firstname = 1; // @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
-    string lastname = 2; 	// @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
-    string birthday = 3; 	// @gotags: json:"birthday" db:"birthday" validate:"required"`
+    string firstname = 1; // @gotags: json:"firstname" xml:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+    string lastname = 2; 	// @gotags: json:"lastname" xml:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+    string birthday = 3; 	// @gotags: json:"birthday" xml:"birthday" db:"birthday" validate:"required"`
 }
 
 message PeopleUpdateParams {
-  string id = 1; 															// @gotags: json:"id" db:"id" validate:"required,uuid4_rfc4122"`
-	string Status = 2 ; 												// @gotags: json:"status" db:"status" validate:"required,alpha"`
-	google.protobuf.Timestamp ExpireddAt = 3 ; 	// @gotags: json:"expired_at" db:"expired_at"
-  string firstname = 4; 											// @gotags: json:"firstname" db:"firstname" validate:"required,alphanumunicode"`
-  string lastname = 5; 												// @gotags: json:"lastname" db:"lastname" validate:"required,alphanumunicode"`
-  string birthday = 6; 												// @gotags: json:"birthday" db:"birthday" validate:"required"`
+  string id = 1; 															// @gotags: json:"id" db:"id" xml:"id" validate:"required,uuid4_rfc4122"`
+	string Status = 2 ; 												// @gotags: json:"status" xml:"status" db:"status" validate:"required,alpha"`
+	google.protobuf.Timestamp ExpireddAt = 3 ; 	// @gotags: json:"expired_at" xml:"iexpired_atd" db:"expired_at"
+  string firstname = 4; 											// @gotags: json:"firstname" xml:"firstname" db:"firstname" validate:"required,alphanumunicode"`
+  string lastname = 5; 												// @gotags: json:"lastname" xml:"lastname" db:"lastname" validate:"required,alphanumunicode"`
+  string birthday = 6; 												// @gotags: json:"birthday" xml:"birthday" db:"birthday" validate:"required"`
 }
 
 message PeopleResponse {
-	string Id = 1 ; 													// @gotags: json:"id" db:"id"
-	string Status = 2 ; 											// @gotags: json:"status" db:"status"
-	google.protobuf.Timestamp CreatedAt = 3 ; // @gotags: json:"created_at" db:"created_at"
-	google.protobuf.Timestamp UpdatedAt = 4 ; // @gotags: json:"updated_at" db:"updated_at"
-	google.protobuf.Timestamp ExpiredAt = 5 ; // @gotags: json:"expired_at" db:"expired_at"
-  string Firstname = 6 ; 										// @gotags: json:"firstname" db:"firstname"
-  string Lastname = 7 ; 										// @gotags: json:"lastname" db:"lastname"
-  string Birthday = 8 ; 										// @gotags: json:"birthday" db:"birthday"
+	string Id = 1 ; 													// @gotags: json:"id" xml:"id" db:"id"
+	string Status = 2 ; 											// @gotags: json:"status" xml:"status" db:"status"
+	google.protobuf.Timestamp CreatedAt = 3 ; // @gotags: json:"created_at" xml:"created_at" db:"created_at"
+	google.protobuf.Timestamp UpdatedAt = 4 ; // @gotags: json:"updated_at" xml:"updated_at" db:"updated_at"
+	google.protobuf.Timestamp ExpiredAt = 5 ; // @gotags: json:"expired_at" xml:"expired_at" db:"expired_at"
+  string Firstname = 6 ; 										// @gotags: json:"firstname" xml:"firstname" db:"firstname"
+  string Lastname = 7 ; 										// @gotags: json:"lastname" xml:"lastname" db:"lastname"
+  string Birthday = 8 ; 										// @gotags: json:"birthday" xml:"birthday" db:"birthday"
 }
 
 service People {
@@ -50,7 +54,7 @@ service People {
 		};
 	}
 
-	rpc Get(abs.EntityRequest) returns (PeopleResponse) {
+	rpc Get(PeopleEntity) returns (PeopleResponse) {
 		option (google.api.http) = {
 			get: "/people/{id}"
 		};
@@ -63,7 +67,7 @@ service People {
 		};
 	}
 
-	rpc Delete(abs.EntityRequest) returns (abs.Response) {
+	rpc Delete(PeopleEntity) returns (abs.Response) {
 		option (google.api.http) = {
 			delete: "/people/{id}"
 		};
